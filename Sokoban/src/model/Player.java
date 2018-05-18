@@ -6,6 +6,7 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  *
@@ -54,15 +55,21 @@ public class Player {
     /**
      * @return the pColor
      */
-    public Color getpColor() {
+    public Color getoColor() {
         return pColor;
     }
 
     /**
      * @param pColor the pColor to set
      */
-    public void setpColor(Color pColor) {
+    public void setoColor(Color pColor) {
         this.pColor = pColor;
     }
     
+    
+    public void paintComponent(Graphics g){
+        //super.paintComponent(g);
+        g.setColor(this.getoColor());
+        g.drawRect(150, 50, 10, 10);
+    }
 }

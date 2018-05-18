@@ -12,35 +12,43 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import model.Player;
 
 /**
  *
  * @author bruno
  */
 public class GamePanel extends JPanel{
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 600;
+    private static final int DEFAULT_WIDTH = 320;
+    private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH / 12 * 9;
+    private static final int SCALE = 2;
     private final int timerDelay;
     private final Timer timer;
 
     
     public GamePanel() {
         super();
-        this.setPreferredSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
+        this.setPreferredSize(new Dimension(220 * SCALE,DEFAULT_HEIGHT * SCALE));
+        this.setMinimumSize(new Dimension(220 * SCALE,DEFAULT_HEIGHT * SCALE));
+        this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE,DEFAULT_HEIGHT * SCALE));
+        this.setBackground(Color.yellow);
+        
         this.setVisible(true);
-        this.setBackground(Color.BLACK);
-        this.setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-        timerDelay = 1000;
+        timerDelay = 500;
         timer = new Timer(timerDelay, gameTimer);
         timer.start();
     }
     
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.setColor(Color.RED);
-        g.drawRect(10, 10, 10, 10);
+        //super.paintComponent(g);
+        
+        //g.drawRect(150, 50, 10, 10);
+        Player player = new Player(Color.white);
+        player.paintComponent(g);
         
     }
+    
+    
     
     public void redraw(){
         this.repaint();
