@@ -15,22 +15,16 @@ import java.util.Random;
  * @author bruno
  */
 public final class Board {
-
     private char[][] boardData = new char[20][20];
-    private Player player;
 
-
-    public Board() {
+    public Board(Player p) {
         //Board clear até saber como representer as coisas
-
-        player = new Player(Color.RED, 10, 10);
-        getBoardData();
-
+        this.toString(p);
     }
 
-    public String toString() {
+    public String toString(Player p) {
         StringBuilder str = new StringBuilder();
-        char[][] temp = getBoardData();
+        char[][] temp = getBoardData(p);
 
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp.length; j++) {
@@ -41,12 +35,11 @@ public final class Board {
         return str.toString();
     }
 
-    public char[][] getBoardData() {
+    public char[][] getBoardData(Player player) {
         int x = player.getX();
         int y = player.getY();
         for (int i = 0; i < boardData.length; i++) {
             for (int j = 0; j < boardData.length; j++) {
-
                 if (x == j && y == i) {
                     boardData[i][j] = 'P';
                 } else {

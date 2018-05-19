@@ -14,8 +14,8 @@ import java.awt.Graphics;
  */
 public class Player extends BaseObject{
         private Color pColor;
-        private int vectorX = 6;
-        private int vectorY = 6;       
+        private int vectorX = 10;
+        private int vectorY = 10;       
 
     public Player(final Color color, int x, int y){
         super(x, y);

@@ -19,7 +19,7 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        board = new Board();
+        //board = new Board();
 //        System.out.println(board);
         
         gBoard = new GameBoard();
