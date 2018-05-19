@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import model.Player;
@@ -18,38 +20,43 @@ import model.Player;
  *
  * @author bruno
  */
-public class GamePanel extends JPanel{
+public class GamePanel extends JPanel implements KeyListener{
     private static final int DEFAULT_WIDTH = 320;
     private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH / 12 * 9;
     private static final int SCALE = 2;
     private final int timerDelay;
     private final Timer timer;
+    private Player player;
 
     
     public GamePanel() {
         super();
+        addKeyListener(this);
         this.setPreferredSize(new Dimension(220 * SCALE,DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(220 * SCALE,DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE,DEFAULT_HEIGHT * SCALE));
         this.setBackground(Color.yellow);
         
+        player = new Player(Color.GREEN, 10, 10);
         this.setVisible(true);
         timerDelay = 500;
         timer = new Timer(timerDelay, gameTimer);
         timer.start();
     }
     
-    public void paintComponent(Graphics g){
-        //super.paintComponent(g);
-        
-        //g.drawRect(150, 50, 10, 10);
-        Player player = new Player(Color.white);
-        player.paintComponent(g);
-        
+     public void addNotify() {
+        super.addNotify();
+        requestFocus();
     }
     
-    
-    
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        this.setBackground(Color.red);
+       
+
+        player.paintComponent(g);
+    }
+
     public void redraw(){
         this.repaint();
     }
@@ -57,8 +64,38 @@ public class GamePanel extends JPanel{
     ActionListener gameTimer = new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent evt){
-            redraw();
+            //redraw();
         }        
     };
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        switch (key) {
+            case KeyEvent.VK_UP:
+                player.setY(player.getY() - player.getVY());
+                break;
+            case KeyEvent.VK_DOWN:
+                 player.setY(player.getY() + player.getVY());
+                break;
+            case KeyEvent.VK_LEFT:
+                player.setX(player.getX() - player.getVX());
+                break;
+            case KeyEvent.VK_RIGHT:
+                player.setX(player.getX() + player.getVX());
+                break;
+        }
+        this.repaint();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

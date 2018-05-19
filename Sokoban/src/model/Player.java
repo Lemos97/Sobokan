@@ -12,64 +12,49 @@ import java.awt.Graphics;
  *
  * @author bruno
  */
-public class Player {
-        private int x;
-        private int y;
+public class Player extends BaseObject{
         private Color pColor;
-        
+        private int vectorX = 6;
+        private int vectorY = 6;       
 
-    public Player(final Color color){
-        x = 10;
-        y = 10;
-        pColor = color;
+    public Player(final Color color, int x, int y){
+        super(x, y);
+        this.pColor = color;
     }
-
-    /**
-     * @return the x
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * @param x the x to set
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * @return the y
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * @param y the y to set
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-
+  
     /**
      * @return the pColor
      */
-    public Color getoColor() {
+    public Color getpColor() {
         return pColor;
     }
 
     /**
      * @param pColor the pColor to set
      */
-    public void setoColor(Color pColor) {
+    public void setpColor(Color pColor) {
         this.pColor = pColor;
     }
     
+    public int getVX(){
+        return this.vectorX;
+    }
+    
+    public void setVX(int vectorX){
+        this.vectorX = vectorX;
+    }
+    
+    public int getVY(){
+        return this.vectorY;
+    }
+    
+    public void setVY(int vectorY){
+        this.vectorY = vectorY;
+    }
     
     public void paintComponent(Graphics g){
         //super.paintComponent(g);
-        g.setColor(this.getoColor());
-        g.drawRect(150, 50, 10, 10);
+        g.setColor(this.getpColor());
+        g.drawRect(this.getX(), this.getY(), 10, 10);
     }
 }
