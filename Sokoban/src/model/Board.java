@@ -15,61 +15,43 @@ import java.util.Random;
  * @author bruno
  */
 public final class Board {
+
     private char[][] boardData = new char[20][20];
-    private int obsNumber = new Random().nextInt(10);
-        
     private Player player;
-    private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-    private Obstacle obstacle;
 
 
-    
-    public Board(){
+    public Board() {
         //Board clear até saber como representer as coisas
-        System.out.println(obsNumber);
 
-        player = new Player(Color.RED);
-        
-        for (int i = 0; i < obsNumber; i++){
-            obstacle = new Obstacle(Color.WHITE, new Random().nextInt(20), new Random().nextInt(20));
-            obstacles.add(obstacle);
-        }
+        player = new Player(Color.RED, 10, 10);
         getBoardData();
-        
+
     }
-    
-    public String toString(){
+
+    public String toString() {
         StringBuilder str = new StringBuilder();
-        char [][] temp = getBoardData();
-        
-        for (int i = 0; i< temp.length; i++){
-            for (int j = 0; j< temp.length; j++){
-               str.append(temp[i][j]);
+        char[][] temp = getBoardData();
+
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp.length; j++) {
+                str.append(temp[i][j]);
             }
             str.append("\n");
         }
         return str.toString();
     }
-    
-    public char[][] getBoardData(){
+
+    public char[][] getBoardData() {
         int x = player.getX();
         int y = player.getY();
-        int oX;
-        int oY;
-        for (int i = 0; i< boardData.length; i++){
-                for (int j = 0; j< boardData.length; j++){
-                    for(int o = 0; o < obstacles.size(); o++){
-                        oX = obstacles.get(o).getX();
-                        oY = obstacles.get(o).getY();
+        for (int i = 0; i < boardData.length; i++) {
+            for (int j = 0; j < boardData.length; j++) {
 
-                        if (x == j && y == i) {
-                            boardData[i][j] = 'P';
-                        }else if (oX == j && oY == i && boardData[i][j] != 'P') {
-                            boardData[i][j] = 'O';
-                        } else if (boardData[i][j] != 'P' || boardData[i][j] != 'O'){
-                            boardData[i][j] = 'x';
-                        }
-                    }
+                if (x == j && y == i) {
+                    boardData[i][j] = 'P';
+                } else {
+                    boardData[i][j] = 'x';
+                }
             }
         }
         return boardData;

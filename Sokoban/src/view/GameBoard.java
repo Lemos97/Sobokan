@@ -6,8 +6,6 @@
 package view;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 /**
  *
  * @author bruno
@@ -18,6 +16,7 @@ public class GameBoard extends JFrame{
     public GameBoard(){
         super("Sokoban");
         panel = new GamePanel();
+        
         start();
     }
     public void start(){
@@ -28,10 +27,11 @@ public class GameBoard extends JFrame{
     private void buildGui(){
         //JPanel masterPanel = new JPanel();
         //masterPanel.add(panel);
-        
         add(panel);
-        
         pack();//let you resize the board
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(true);
+        setLocationRelativeTo(null);
         
     }
 }

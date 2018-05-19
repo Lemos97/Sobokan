@@ -20,10 +20,9 @@ public class Sokoban {
      */
     public static void main(String[] args) {
         board = new Board();
-        System.out.println(board);
+//        System.out.println(board);
         
         gBoard = new GameBoard();
         gBoard.start();
-        
     }
 }
