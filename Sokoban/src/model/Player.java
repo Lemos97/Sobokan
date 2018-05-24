@@ -17,9 +17,9 @@ public class Player extends BaseObject{
         private int vectorX = 6;
         private int vectorY = 6;       
 
-    public Player(final Color color, int x, int y){
+    public Player(int x, int y) {
         super(x, y);
-        this.pColor = color;
+        this.setImage("PlayerSprites/Down");
     }
   
     /**
@@ -36,25 +36,36 @@ public class Player extends BaseObject{
         this.pColor = pColor;
     }
     
+    /**
+     * @return the vectorX
+     */
     public int getVX(){
         return this.vectorX;
     }
     
+     /**
+     * @param vectorX to set vectorX
+     */
     public void setVX(int vectorX){
         this.vectorX = vectorX;
     }
     
-    public int getVY(){
+    /**
+     * @return the vectorY
+     */
+    public int getVY() {
         return this.vectorY;
     }
     
-    public void setVY(int vectorY){
+    /**
+     * @param vectorY to set vectorY
+     */
+    public void setVY(int vectorY) {
         this.vectorY = vectorY;
     }
     
     public void paintComponent(Graphics g){
         //super.paintComponent(g);
-        g.setColor(this.getpColor());
-        g.drawRect(this.getX(), this.getY(), 10, 10);
+        g.drawImage(this.getImage(), this.getX()-20, this.getY()-20, 50, 70, null);
     }
 }
