@@ -5,6 +5,11 @@
  */
 package model;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author Alexandre
@@ -12,6 +17,7 @@ package model;
 class BaseObject {
      private int xPos;
      private int yPos;
+     private Image image;
      
      public BaseObject(int x, int y){
          this.xPos = x;
@@ -45,5 +51,23 @@ class BaseObject {
     public void setY(int y) {
         this.yPos = y;
     }
+    
+    
+     /**
+     * @return the image
+     */
+    public Image getImage() {
+        return image;
+    }
 
+    /**
+     * @param image to set the image
+     */
+    public void setImage(String imageName) {
+        try {
+            this.image = ImageIO.read(getClass().getResource("/Resources/" + imageName + ".png"));
+        } catch (IOException ex) {
+            //ex.printStackTrace();
+        }
+    }
 }

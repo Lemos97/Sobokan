@@ -14,6 +14,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import model.Board;
+import model.MapLevel;
+import model.Obstacle;
 import model.Player;
 
 /**
@@ -26,35 +29,39 @@ public class GamePanel extends JPanel implements KeyListener{
     private static final int SCALE = 2;
     private final int timerDelay;
     private final Timer timer;
-    private Player player;
+    private MapLevel mapLevel;
+    
+    int changer = 1;
 
     
     public GamePanel() {
         super();
         addKeyListener(this);
-        this.setPreferredSize(new Dimension(220 * SCALE,DEFAULT_HEIGHT * SCALE));
+        mapLevel = new MapLevel();
+        this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE,DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(220 * SCALE,DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE,DEFAULT_HEIGHT * SCALE));
         this.setBackground(Color.yellow);
         
-        player = new Player(Color.GREEN, 10, 10);
+       
         this.setVisible(true);
         timerDelay = 500;
         timer = new Timer(timerDelay, gameTimer);
         timer.start();
     }
     
+    @Override
      public void addNotify() {
         super.addNotify();
         requestFocus();
     }
     
+    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        this.setBackground(Color.red);
-       
-
-        player.paintComponent(g);
+        MapLevel.player.paintComponent(g);
+        for(Obstacle obstacle : MapLevel.obstacles)
+        obstacle.paintComponent(g);
     }
 
     public void redraw(){
@@ -78,17 +85,26 @@ public class GamePanel extends JPanel implements KeyListener{
         int key = e.getKeyCode();
         switch (key) {
             case KeyEvent.VK_UP:
-                player.setY(player.getY() - player.getVY());
+                MapLevel.player.setY(MapLevel.player.getY() - MapLevel.player.getVY());
+                MapLevel.player.setImage("PlayerSprites/Up" + changer);
                 break;
             case KeyEvent.VK_DOWN:
-                 player.setY(player.getY() + player.getVY());
+                MapLevel.player.setY(MapLevel.player.getY() + MapLevel.player.getVY());
+                MapLevel.player.setImage("PlayerSprites/Down" + changer);
                 break;
             case KeyEvent.VK_LEFT:
-                player.setX(player.getX() - player.getVX());
+                MapLevel.player.setX(MapLevel.player.getX() - MapLevel.player.getVX());
+                MapLevel.player.setImage("PlayerSprites/Left" + changer);
                 break;
             case KeyEvent.VK_RIGHT:
-                player.setX(player.getX() + player.getVX());
+                MapLevel.player.setX(MapLevel.player.getX() + MapLevel.player.getVX());
+                MapLevel.player.setImage("PlayerSprites/Right" + changer);
                 break;
+        }
+        if (changer == 1) {
+            changer = 2;
+        } else {
+            changer = 1;
         }
         this.repaint();
     }

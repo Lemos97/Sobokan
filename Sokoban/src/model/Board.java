@@ -23,7 +23,7 @@ public final class Board {
     public Board() {
         //Board clear até saber como representer as coisas
 
-        player = new Player(Color.RED, 10, 10);
+        player = new Player(10, 10);
         getBoardData();
 
     }
