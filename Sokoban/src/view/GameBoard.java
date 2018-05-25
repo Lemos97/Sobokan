@@ -12,10 +12,10 @@ import javax.swing.JFrame;
  */
 @SuppressWarnings("serial")
 public class GameBoard extends JFrame{
-    private GamePanel panel;
+    private GamePanele panel;
     public GameBoard(){
         super("Sokoban");
-        panel = new GamePanel();
+        panel = new GamePanele();
         
         start();
     }
