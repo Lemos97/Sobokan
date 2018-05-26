@@ -22,10 +22,19 @@ public class GameBoard extends JFrame {
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
     private int changer = 1;
+    private Board boardLevel;
     /**
      * Creates new form GamePanel
      */
     public GameBoard() {
+        boardLevel = new Board("################\n"
+                        + "#   #      #   #\n"
+                        + "#  #   $    #  #\n"
+                        + "#             .#\n"
+                        + "#  @           #\n"
+                        + "#     #      # #\n"
+                        + "#   #     #    #\n"
+                        + "################\n", 1, 5, 4);
         initComponents();
 
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
@@ -44,7 +53,7 @@ public class GameBoard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        board = new model.Board();
+        board = boardLevel;
         jPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
