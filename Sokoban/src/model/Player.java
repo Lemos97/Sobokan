@@ -63,9 +63,4 @@ public class Player extends BaseObject{
     public void setVY(int vectorY) {
         this.vectorY = vectorY;
     }
-    
-    public void paintComponent(Graphics g){
-        //super.paintComponent(g);
-        g.drawImage(this.getImage(), this.getX()-20, this.getY()-20, 50, 70, null);
-    }
 }

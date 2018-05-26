@@ -11,6 +11,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.Board;
+import model.Level;
 
 /**
  *
@@ -22,12 +24,13 @@ public class GameBoard extends JFrame {
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
     private int changer = 1;
+    private Board boardLevel;
     /**
      * Creates new form GamePanel
      */
-    public GameBoard() {
+    public GameBoard(Level levels) {
+        boardLevel = new Board(levels.getLevelLayout(), 1, 5, 4);
         initComponents();
-
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
@@ -44,31 +47,19 @@ public class GameBoard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        board = new model.Board();
+        board = boardLevel;
         jPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setType(java.awt.Window.Type.POPUP);
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                formComponentResized(evt);
-            }
-        });
-        addWindowStateListener(new java.awt.event.WindowStateListener() {
-            public void windowStateChanged(java.awt.event.WindowEvent evt) {
-                formWindowStateChanged(evt);
-            }
-        });
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                formPropertyChange(evt);
-            }
-        });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
             }
         });
 
@@ -138,18 +129,23 @@ public class GameBoard extends JFrame {
 
     }//GEN-LAST:event_formKeyPressed
 
-    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-
-    }//GEN-LAST:event_formWindowStateChanged
-
-    private void formPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_formPropertyChange
-
-    }//GEN-LAST:event_formPropertyChange
-
-    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        //evt.getComponent()
-    }//GEN-LAST:event_formComponentResized
-
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {
+        switch (evt.getKeyCode()) {
+            case 37:
+                board.player.setImage("PlayerSprites/Left");
+                break;
+            case 39:
+                board.player.setImage("PlayerSprites/Right");
+                break;
+            case 38:
+                board.player.setImage("PlayerSprites/Up");
+                break;
+            case 40:
+                board.player.setImage("PlayerSprites/Down");
+                break;
+        }
+        board.repaint();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
     private javax.swing.JPanel jPanel;

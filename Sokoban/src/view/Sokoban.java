@@ -5,6 +5,10 @@
  */
 package view;
 
+import Controlers.FileReader;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import model.Level;
 import view.GameBoard;
 /**
  *
@@ -14,7 +18,11 @@ public class Sokoban {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    
+    static FileReader a = new FileReader();
+    static ArrayList<Level>  Levels = new ArrayList();
+    
+    public static void main(String args[]) throws URISyntaxException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -38,11 +46,14 @@ public class Sokoban {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
+        Levels = a.GetAllLevels();
+       
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new GameBoard().setVisible(true);
+                new GameBoard(Levels.get(0)).setVisible(true);
             }
         });
     }
