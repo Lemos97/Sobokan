@@ -12,13 +12,13 @@ import java.awt.Graphics;
  *
  * @author bruno
  */
-public class Obstacle extends BaseObject {
+public class Wall extends BaseObject {
         private Color oColor;
         
         
-    public Obstacle(int oX, int oY) {
-        super(oX, oY);
-        this.setImage("Obstacle");
+    public Wall(int lvlNum) {
+        super(1, 1);
+        this.setImage("WallLvl"+lvlNum);
     }
 
     /**
@@ -33,11 +33,5 @@ public class Obstacle extends BaseObject {
      */
     public void setoColor(Color oColor) {
         this.oColor = oColor;
-    }
-    
-    public void paintComponent(Graphics g){
-        //super.paintComponent(g);
-        g.drawImage(this.getImage(), this.getX()-20, this.getY()-20, 70, 70, null);
-    }
-    
+    }    
 }

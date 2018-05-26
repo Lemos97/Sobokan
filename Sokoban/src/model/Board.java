@@ -16,9 +16,13 @@ import javax.swing.JPanel;
  *
  * @author bruno
  */
-public final class Board extends JPanel{
-    private Player player;
+public final class Board extends JPanel {
+
+    public Player player;
     private Floor floor;
+    private Wall wall;
+    private Obstacle obstacle;
+
     public static final char EMPTY = ' ';
     public static final char PLAYER = '@';
     public static final char BLOCK = '$';
@@ -26,31 +30,32 @@ public final class Board extends JPanel{
     public static final char WALL = '#';
     private char[][] targets;
     private char[][] world;
-
     private int linhas, colunas;
 
-
     public Board() {
-         this("##############\n"
-           + "#   #        #\n"
-           + "#  #     $   #\n"
-           + "#      #    .#\n"
-           + "#  @    #    #\n"
-           + "#          # #\n"
-           + "#   #        #\n"
-           + "##############\n", 1);
+        this("################\n"
+                + "#   #      #   #\n"
+                + "#  #   $    #  #\n"
+                + "#       ##    .#\n"
+                + "#  @  #    #   #\n"
+                + "#     #      # #\n"
+                + "#   #     #    #\n"
+                + "################\n", 1, 5, 4);
     }
 
-    public Board(String board, int lvlNum) {
+    public Board(String board, int lvlNum, int pX, int pY) {
         String[] lines = board.split("\n");
         int maior = lines[0].length();
         for (int l = 1; l < lines.length; l++) {
             if (lines[l].length() > maior) {
                 maior = lines[l].length();
             }
-
         }
-        floor = new Floor(1);
+
+        player = new Player(pX, pY);
+        floor = new Floor(lvlNum);
+        wall = new Wall(lvlNum);
+
         this.linhas = lines.length;
         this.colunas = maior;
         world = new char[lines.length][];
@@ -182,11 +187,14 @@ public final class Board extends JPanel{
 
     }
 
-     public boolean isComplete() {
-        for(int l=0; l < world.length; l++) 
-            for(int c=0; c < world[l].length; c++)
-                if (world[l][c] == '.' && targets[l][c]!= '$')
+    public boolean isComplete() {
+        for (int l = 0; l < world.length; l++) {
+            for (int c = 0; c < world[l].length; c++) {
+                if (world[l][c] == '.' && targets[l][c] != '$') {
                     return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -197,21 +205,25 @@ public final class Board extends JPanel{
 
         for (int l = 0; l < linhas; l++) {
             for (int c = 0; c < colunas; c++) {
-                if (world[l][c] == WALL) {
-                    g.setColor(Color.BLACK);
-                }
+
                 if (world[l][c] == TARGET) {
-                    g.setColor(Color.CYAN);
+                    obstacle = new Obstacle(l, c);
+                    obstacle.setImage("Fate");
+                    g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == BLOCK) {
-                    g.setColor(Color.GREEN);
+                    obstacle = new Obstacle(l, c);
+                    g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
-                g.fillRect(Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl));
+//                g.fillRect(Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl));
+                if (world[l][c] == WALL) {
+                    g.drawImage(wall.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                }
                 if (world[l][c] == EMPTY) {
                     g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER) {
-                    player = new Player(l, c);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                     g.drawImage(player.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
             }
