@@ -34,10 +34,4 @@ public class Obstacle extends BaseObject {
     public void setoColor(Color oColor) {
         this.oColor = oColor;
     }
-    
-    public void paintComponent(Graphics g){
-        //super.paintComponent(g);
-        g.drawImage(this.getImage(), this.getX()-20, this.getY()-20, 70, 70, null);
-    }
-    
 }

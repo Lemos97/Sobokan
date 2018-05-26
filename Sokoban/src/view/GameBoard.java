@@ -11,6 +11,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.Board;
+import model.Level;
 
 /**
  *
@@ -26,17 +28,9 @@ public class GameBoard extends JFrame {
     /**
      * Creates new form GamePanel
      */
-    public GameBoard() {
-        boardLevel = new Board("################\n"
-                        + "#   #      #   #\n"
-                        + "#  #   $    #  #\n"
-                        + "#             .#\n"
-                        + "#  @           #\n"
-                        + "#     #      # #\n"
-                        + "#   #     #    #\n"
-                        + "################\n", 1, 5, 4);
+    public GameBoard(Level levels) {
+        boardLevel = new Board(levels.getLevelLayout(), 1, 5, 4);
         initComponents();
-
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
@@ -135,6 +129,23 @@ public class GameBoard extends JFrame {
 
     }//GEN-LAST:event_formKeyPressed
 
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {
+        switch (evt.getKeyCode()) {
+            case 37:
+                board.player.setImage("PlayerSprites/Left");
+                break;
+            case 39:
+                board.player.setImage("PlayerSprites/Right");
+                break;
+            case 38:
+                board.player.setImage("PlayerSprites/Up");
+                break;
+            case 40:
+                board.player.setImage("PlayerSprites/Down");
+                break;
+        }
+        board.repaint();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
     private javax.swing.JPanel jPanel;
