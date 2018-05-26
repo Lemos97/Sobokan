@@ -23,7 +23,7 @@ import model.Player;
  *
  * @author bruno
  */
-public class GamePanele extends JPanel implements KeyListener{
+public class OldGamePanel extends JPanel implements KeyListener{
     private static final int DEFAULT_WIDTH = 320;
     private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH / 12 * 9;
     private static final int SCALE = 2;
@@ -34,7 +34,7 @@ public class GamePanele extends JPanel implements KeyListener{
     int changer = 1;
 
     
-    public GamePanele() {
+    public OldGamePanel() {
         super();
         addKeyListener(this);
         mapLevel = new MapLevel();
