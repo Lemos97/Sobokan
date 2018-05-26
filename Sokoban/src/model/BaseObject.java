@@ -7,7 +7,6 @@ package model;
 
 import java.awt.Image;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 /**

@@ -14,8 +14,8 @@ import java.awt.Graphics;
  */
 public class Player extends BaseObject{
         private Color pColor;
-        private int vectorX = 6;
-        private int vectorY = 6;       
+        private int vectorX = 10;
+        private int vectorY = 10;       
 
     public Player(int x, int y) {
         super(x, y);
@@ -62,10 +62,5 @@ public class Player extends BaseObject{
      */
     public void setVY(int vectorY) {
         this.vectorY = vectorY;
-    }
-    
-    public void paintComponent(Graphics g){
-        //super.paintComponent(g);
-        g.drawImage(this.getImage(), this.getX()-20, this.getY()-20, 50, 70, null);
     }
 }
