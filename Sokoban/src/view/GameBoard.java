@@ -5,26 +5,26 @@
  */
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Board;
 import model.Level;
+
 
 /**
  *
  * @author Alexandre
  */
 public class GameBoard extends JFrame {
-
+    
     private static final int DEFAULT_WIDTH = 480;
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
     private int changer = 1;
     private Board boardLevel;
+
     /**
      * Creates new form GamePanel
      */
@@ -36,6 +36,7 @@ public class GameBoard extends JFrame {
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        resetBtn.setFocusable(false);
     }
 
     /**
@@ -49,6 +50,7 @@ public class GameBoard extends JFrame {
 
         board = boardLevel;
         jPanel = new javax.swing.JPanel();
+        resetBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -57,9 +59,6 @@ public class GameBoard extends JFrame {
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                formKeyReleased(evt);
             }
         });
 
@@ -75,16 +74,27 @@ public class GameBoard extends JFrame {
         );
 
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
+        resetBtn.setText("Reset");
+        resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addComponent(resetBtn)
+                .addGap(0, 339, Short.MAX_VALUE))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 39, Short.MAX_VALUE)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addComponent(resetBtn)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel, java.awt.BorderLayout.NORTH);
@@ -95,7 +105,13 @@ public class GameBoard extends JFrame {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         // TODO add your handling code here:
         if (board.isComplete()) {
-            JOptionPane.showMessageDialog(this, "Ganhou!");
+            Object[] options = {"Yes", "No"};
+            int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+            
+            if (choice == 0){
+                board.removeAll();
+                board.repaint();
+            }
         } else {
             
             switch (evt.getKeyCode()) {
@@ -106,17 +122,17 @@ public class GameBoard extends JFrame {
                 case 39:
                     board.moveRight();
                     board.player.setImage("PlayerSprites/Right" + changer);
-
+                    
                     break;
                 case 38:
                     board.moveUp();
                     board.player.setImage("PlayerSprites/Up" + changer);
-
+                    
                     break;
                 case 40:
                     board.moveDown();
                     board.player.setImage("PlayerSprites/Down" + changer);
-
+                    
                     break;
             }
             if (changer == 1) {
@@ -129,25 +145,32 @@ public class GameBoard extends JFrame {
 
     }//GEN-LAST:event_formKeyPressed
 
-    private void formKeyReleased(java.awt.event.KeyEvent evt) {
-        switch (evt.getKeyCode()) {
-            case 37:
-                board.player.setImage("PlayerSprites/Left");
-                break;
-            case 39:
-                board.player.setImage("PlayerSprites/Right");
-                break;
-            case 38:
-                board.player.setImage("PlayerSprites/Up");
-                break;
-            case 40:
-                board.player.setImage("PlayerSprites/Down");
-                break;
-        }
+    private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
+        // TODO add your handling code here:
+        board.removeAll();
         board.repaint();
+    }//GEN-LAST:event_resetBtnMouseClicked
+    
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {
+//        switch (evt.getKeyCode()) {
+//            case 37:
+//                board.player.setImage("PlayerSprites/Left");
+//                break;
+//            case 39:
+//                board.player.setImage("PlayerSprites/Right");
+//                break;
+//            case 38:
+//                board.player.setImage("PlayerSprites/Up");
+//                break;
+//            case 40:
+//                board.player.setImage("PlayerSprites/Down");
+//                break;
+//        }
+//        board.repaint();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
     private javax.swing.JPanel jPanel;
+    private javax.swing.JButton resetBtn;
     // End of variables declaration//GEN-END:variables
 }
