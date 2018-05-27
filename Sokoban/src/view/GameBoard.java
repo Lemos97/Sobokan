@@ -108,10 +108,7 @@ public class GameBoard extends JFrame {
             Object[] options = {"Yes", "No"};
             int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             
-            if (choice == 0){
-                board.removeAll();
-                board.repaint();
-            }
+            
         } else {
             
             switch (evt.getKeyCode()) {
@@ -147,8 +144,7 @@ public class GameBoard extends JFrame {
 
     private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
         // TODO add your handling code here:
-        board.removeAll();
-        board.repaint();
+        
     }//GEN-LAST:event_resetBtnMouseClicked
     
     private void formKeyReleased(java.awt.event.KeyEvent evt) {
