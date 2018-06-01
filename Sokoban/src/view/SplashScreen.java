@@ -41,6 +41,13 @@ public class SplashScreen extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         initComponents();
+
+        try {
+            // TODO add your handling code here:
+            Levels = a.GetAllLevels();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -153,27 +160,23 @@ public class SplashScreen extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newBtnMouseClicked
-
-        try {
-            // TODO add your handling code here:
-            Levels = a.GetAllLevels();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         List<Object> options = new ArrayList<>();
 
-        Levels.forEach((e) -> {
-            options.add(e.getLevelId());
-        });
+        for (Level l : Levels) {
+            options.add(l.getLevelId());
+        };
         int option = JOptionPane.showOptionDialog(this, "Qual Nivel quer escolher?", "Escolha um nível", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options.toArray(), options.get(0));
 
-        GameBoard game = new GameBoard(Levels.get(option));
-        Runnable runner = () -> {
-            /* Create and display the form */
-            game.setVisible(true);
-        };
+        if (option > -1) {
+            GameBoard game = new GameBoard(Levels.get(option));
+            Runnable runner = () -> {
+                /* Create and display the form */
+                game.setVisible(true);
+            };
 
-        EventQueue.invokeLater(runner);
+            EventQueue.invokeLater(runner);
+        }
+
     }//GEN-LAST:event_newBtnMouseClicked
 
     private void loadBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadBtnMouseClicked
