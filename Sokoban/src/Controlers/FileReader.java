@@ -40,6 +40,22 @@ public class FileReader {
         }
         return new ArrayList();
     }
+    
+    public  Level GetLevel(String path) throws URISyntaxException {
+        try {
+            levels = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+            for (String line : levels) {
+                String[] tokens = line.split("-");
+                String a = tokens[0];
+                _level.setLevelLayout(a);
+            }
+            return _level;
+        } catch (IOException ex) {
+            Logger.getLogger(FileReader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return _level;
+    }
+    
 }
 
 
