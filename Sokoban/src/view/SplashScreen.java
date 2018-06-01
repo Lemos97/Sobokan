@@ -41,13 +41,7 @@ public class SplashScreen extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         initComponents();
-
-        try {
-            // TODO add your handling code here:
-            Levels = a.GetAllLevels();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        Levels = a.GetAllLevels();  
     }
 
     /**

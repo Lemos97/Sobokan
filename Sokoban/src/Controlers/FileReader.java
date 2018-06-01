@@ -7,13 +7,14 @@ package Controlers;
 
 import java.util.List;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
+import model.Level;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-import model.Level;
 
 /**
  *
@@ -21,40 +22,51 @@ import model.Level;
  */
 public class FileReader {
 
-    ArrayList<Level> Levels = new ArrayList();
-    private Level _level = new Level();
-    private List<String> levels;
-
-    public ArrayList<Level> GetAllLevels() throws URISyntaxException {
+    public ArrayList<Level> GetAllLevels() {
         try {
-            levels = Files.readAllLines(Paths.get(getClass().getResource("/Resources/levels.txt").toURI()), StandardCharsets.UTF_8);
-            for (String line : levels) {
-                String[] tokens = line.split("-");
-                String a = tokens[0];
-                _level.setLevelLayout(a);
-                _level.setLevelId(levels.indexOf(line));
-                Levels.add(_level);
-            }
-            return Levels;
-        } catch (IOException ex) {
-            Logger.getLogger(FileReader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            ObjectMapper mapper = new ObjectMapper();
+            Path filePath = Paths.get(getClass().getResource("/Resources/levels.json").toURI());
+            File from = new File(filePath.toString());
+            //JSON from String to List<Level>
+            List<Level> myLevels = mapper.readValue(from, mapper.getTypeFactory().constructCollectionType(List.class, Level.class));
+            ArrayList<Level> aa = (ArrayList) myLevels;
+            return aa;
+        } catch (IOException | URISyntaxException ex) {
+            return null;
         }
-        return new ArrayList();
     }
 
     public Level GetLevel(String path) throws URISyntaxException {
         try {
-            levels = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
-            for (String line : levels) {
-                String[] tokens = line.split("-");
-                String a = tokens[0];
-                _level.setLevelLayout(a);
-            }
-            return _level;
+            ObjectMapper mapper = new ObjectMapper();
+            Path filePath = Paths.get(path);
+            File from = new File(filePath.toString());
+            //JSON from String to List<Level>
+            Level mySaveLvl = mapper.readValue(from, mapper.getTypeFactory().constructCollectionType(List.class, Level.class));
+            return mySaveLvl;
         } catch (IOException ex) {
-            Logger.getLogger(FileReader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        return _level;
+        return null;
     }
 
+    public void SaveLevelState(String gameState, int numLvl) {
+        Level a = new Level();
+        a.setLevelId(numLvl);
+        a.setLevelLayout(gameState);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Path filePath;
+        try {
+            filePath = Paths.get(getClass().getResource("/Resources/").toURI());
+            File to = new File(filePath + "/GameSave.json");
+            if (!to.exists()) {
+                to.createNewFile();
+                mapper.writeValue(to, a);
+                return;
+            }
+            mapper.writeValue(to, a);
+        } catch (IOException | URISyntaxException ex) {
+            Logger.getLogger(FileReader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
 }

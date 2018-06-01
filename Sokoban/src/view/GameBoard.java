@@ -5,6 +5,7 @@
  */
 package view;
 
+import Controlers.FileReader;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
@@ -17,7 +18,7 @@ import model.Level;
  * @author Alexandre
  */
 public class GameBoard extends JFrame {
-
+    private FileReader a = new FileReader();
     private static final int DEFAULT_WIDTH = 480;
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
@@ -34,9 +35,13 @@ public class GameBoard extends JFrame {
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        boardLevel = new Board(levels.getLevelLayout(), 1, 5, 4);
+        boardLevel = new Board(levels.getLevelLayout(), levels.getLevelId(), 5, 4);
         initComponents();
         resetBtn.setFocusable(false);
+        exitBtn.setFocusable(false);
+        saveBtn.setFocusable(false);
+        undoBtn.setFocusable(false);
+        redoBtn.setFocusable(false);
     }
 
     /**
@@ -48,9 +53,25 @@ public class GameBoard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        board = boardLevel;
+        board1 = new model.Board();
         jPanel = new javax.swing.JPanel();
         resetBtn = new javax.swing.JButton();
+        undoBtn = new javax.swing.JButton();
+        saveBtn = new javax.swing.JButton();
+        exitBtn = new javax.swing.JButton();
+        redoBtn = new javax.swing.JButton();
+        board = new model.Board();
+
+        javax.swing.GroupLayout board1Layout = new javax.swing.GroupLayout(board1);
+        board1.setLayout(board1Layout);
+        board1Layout.setHorizontalGroup(
+            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        board1Layout.setVerticalGroup(
+            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -61,6 +82,75 @@ public class GameBoard extends JFrame {
                 formKeyPressed(evt);
             }
         });
+
+        resetBtn.setText("Reset");
+        resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetBtnMouseClicked(evt);
+            }
+        });
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
+
+        undoBtn.setText("Undo");
+        undoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoBtnActionPerformed(evt);
+            }
+        });
+
+        saveBtn.setText("Save");
+        saveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtnActionPerformed(evt);
+            }
+        });
+
+        exitBtn.setText("Exit");
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
+
+        redoBtn.setText("Redo");
+        redoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redoBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
+        jPanel.setLayout(jPanelLayout);
+        jPanelLayout.setHorizontalGroup(
+            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addComponent(resetBtn)
+                .addGap(31, 31, 31)
+                .addComponent(undoBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(redoBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addComponent(exitBtn))
+        );
+        jPanelLayout.setVerticalGroup(
+            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resetBtn)
+                    .addComponent(undoBtn)
+                    .addComponent(saveBtn)
+                    .addComponent(exitBtn)
+                    .addComponent(redoBtn))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel, java.awt.BorderLayout.NORTH);
 
         javax.swing.GroupLayout boardLayout = new javax.swing.GroupLayout(board);
         board.setLayout(boardLayout);
@@ -74,30 +164,6 @@ public class GameBoard extends JFrame {
         );
 
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
-        resetBtn.setText("Reset");
-        resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                resetBtnMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
-        jPanel.setLayout(jPanelLayout);
-        jPanelLayout.setHorizontalGroup(
-            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-            .addGroup(jPanelLayout.createSequentialGroup()
-                .addComponent(resetBtn)
-                .addGap(0, 339, Short.MAX_VALUE))
-        );
-        jPanelLayout.setVerticalGroup(
-            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelLayout.createSequentialGroup()
-                .addComponent(resetBtn)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel, java.awt.BorderLayout.NORTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -127,12 +193,10 @@ public class GameBoard extends JFrame {
                 case 38:
                     board.moveUp();
                     board.player.setImage("PlayerSprites/Up" + changer);
-
                     break;
                 case 40:
                     board.moveDown();
                     board.player.setImage("PlayerSprites/Down" + changer);
-
                     break;
             }
             if (changer == 1) {
@@ -149,6 +213,27 @@ public class GameBoard extends JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_resetBtnMouseClicked
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        board.SetWorld(boardLevel.gameResetState);
+        this.repaint();
+    }//GEN-LAST:event_resetBtnActionPerformed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+            System.exit(0);
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        a.SaveLevelState(board.toString(), board.getLvlNum());        
+    }//GEN-LAST:event_saveBtnActionPerformed
+
+    private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_undoBtnActionPerformed
+
+    private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_redoBtnActionPerformed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {
 //        switch (evt.getKeyCode()) {
@@ -169,7 +254,12 @@ public class GameBoard extends JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
+    private model.Board board1;
+    private javax.swing.JButton exitBtn;
     private javax.swing.JPanel jPanel;
+    private javax.swing.JButton redoBtn;
     private javax.swing.JButton resetBtn;
+    private javax.swing.JButton saveBtn;
+    private javax.swing.JButton undoBtn;
     // End of variables declaration//GEN-END:variables
 }

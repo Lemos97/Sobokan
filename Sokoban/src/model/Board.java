@@ -5,11 +5,8 @@
  */
 package model;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -22,7 +19,8 @@ public final class Board extends JPanel {
     private Floor floor;
     private Wall wall;
     private Obstacle obstacle;
-
+    private List<String> gameStates;
+    public String gameResetState;
     public static final char EMPTY = ' ';
     public static final char PLAYER = '@';
     public static final char BLOCK = '$';
@@ -31,6 +29,7 @@ public final class Board extends JPanel {
     private char[][] targets;
     private char[][] world;
     private int linhas, colunas;
+    private int lvlNum;
 
     public Board() {
         this("################\n"
@@ -42,8 +41,11 @@ public final class Board extends JPanel {
                 + "#   #     #    #\n"
                 + "################\n", 1, 5, 4);
     }
-
+    
+    
+    public int getLvlNum(){return lvlNum;}
     public Board(String board, int lvlNum, int pX, int pY) {
+        this.lvlNum = lvlNum;
         String[] lines = board.split("\n");
         int maior = lines[0].length();
         for (int l = 1; l < lines.length; l++) {
@@ -51,7 +53,7 @@ public final class Board extends JPanel {
                 maior = lines[l].length();
             }
         }
-
+        gameResetState = board;
         player = new Player(pX, pY);
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
@@ -64,7 +66,25 @@ public final class Board extends JPanel {
             world[i] = lines[i].toCharArray();
         }
     }
+    
+    public void SetWorld(String board){
+         String[] lines = board.split("\n");
+        int maior = lines[0].length();
+        for (int l = 1; l < lines.length; l++) {
+            if (lines[l].length() > maior) {
+                maior = lines[l].length();
+            }
+        }
 
+        this.linhas = lines.length;
+        this.colunas = maior;
+        world = new char[lines.length][];
+        targets = new char[lines.length][maior];
+        for (int i = 0; i < lines.length; i++) {
+            world[i] = lines[i].toCharArray();
+        }
+    }
+   
     public String toString() {
         StringBuilder txt = new StringBuilder();
         for (char[] line : world) {
@@ -166,25 +186,21 @@ public final class Board extends JPanel {
     public void moveRight() {
         int[] pos = getPlayerPosition();
         moveTo(pos[0], pos[1], +1, 0, 1);
-
     }
 
     public void moveLeft() {
         int[] pos = getPlayerPosition();
         moveTo(pos[0], pos[1], -1, 0, 3);
-
     }
 
     public void moveUp() {
         int[] pos = getPlayerPosition();
         moveTo(pos[0], pos[1], 0, -1, 4);
-
     }
 
     public void moveDown() {
         int[] pos = getPlayerPosition();
         moveTo(pos[0], pos[1], 0, +1, 2);
-
     }
 
     public boolean isComplete() {
@@ -197,15 +213,13 @@ public final class Board extends JPanel {
         }
         return true;
     }
-
-    @Override
+   
     public void paint(Graphics g) {
         float dc = ((float) this.getWidth()) / colunas;
         float dl = ((float) this.getHeight()) / linhas;
 
         for (int l = 0; l < linhas; l++) {
             for (int c = 0; c < colunas; c++) {
-
                 if (world[l][c] == TARGET) {
                     obstacle = new Obstacle(l, c);
                     obstacle.setImage("Fate");
@@ -215,7 +229,7 @@ public final class Board extends JPanel {
                     obstacle = new Obstacle(l, c);
                     g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
-//                g.fillRect(Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl));
+                //g.fillRect(Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl));
                 if (world[l][c] == WALL) {
                     g.drawImage(wall.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
@@ -228,5 +242,18 @@ public final class Board extends JPanel {
                 }
             }
         }
+    }
+
+    public void setGameStates(String state) {
+        if (gameStates.size() >= 4) {
+            gameStates.remove(0);
+        }
+        gameStates.add(state);
+    }
+
+    
+    
+    public String getGameStates() {
+        return gameStates.get(0);
     }
 }
