@@ -25,13 +25,14 @@ public class FileReader {
     private Level _level = new Level();
     private List<String> levels;
 
-    public  ArrayList<Level> GetAllLevels() throws URISyntaxException {
+    public ArrayList<Level> GetAllLevels() throws URISyntaxException {
         try {
             levels = Files.readAllLines(Paths.get(getClass().getResource("/Resources/levels.txt").toURI()), StandardCharsets.UTF_8);
             for (String line : levels) {
                 String[] tokens = line.split("-");
                 String a = tokens[0];
                 _level.setLevelLayout(a);
+                _level.setLevelId(levels.indexOf(line));
                 Levels.add(_level);
             }
             return Levels;
@@ -40,8 +41,8 @@ public class FileReader {
         }
         return new ArrayList();
     }
-    
-    public  Level GetLevel(String path) throws URISyntaxException {
+
+    public Level GetLevel(String path) throws URISyntaxException {
         try {
             levels = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
             for (String line : levels) {
@@ -55,7 +56,5 @@ public class FileReader {
         }
         return _level;
     }
-    
+
 }
-
-
