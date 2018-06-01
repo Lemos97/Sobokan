@@ -12,13 +12,12 @@ import javax.swing.JOptionPane;
 import model.Board;
 import model.Level;
 
-
 /**
  *
  * @author Alexandre
  */
 public class GameBoard extends JFrame {
-    
+
     private static final int DEFAULT_WIDTH = 480;
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
@@ -29,13 +28,14 @@ public class GameBoard extends JFrame {
      * Creates new form GamePanel
      */
     public GameBoard(Level levels) {
-        boardLevel = new Board(levels.getLevelLayout(), 1, 5, 4);
-        initComponents();
+        this.setUndecorated(true);
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        boardLevel = new Board(levels.getLevelLayout(), 1, 5, 4);
+        initComponents();
         resetBtn.setFocusable(false);
     }
 
@@ -107,10 +107,13 @@ public class GameBoard extends JFrame {
         if (board.isComplete()) {
             Object[] options = {"Yes", "No"};
             int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-            
-            
+
+            if (choice == 0) {
+                this.dispose();
+            }
+
         } else {
-            
+
             switch (evt.getKeyCode()) {
                 case 37:
                     board.moveLeft();
@@ -119,17 +122,17 @@ public class GameBoard extends JFrame {
                 case 39:
                     board.moveRight();
                     board.player.setImage("PlayerSprites/Right" + changer);
-                    
+
                     break;
                 case 38:
                     board.moveUp();
                     board.player.setImage("PlayerSprites/Up" + changer);
-                    
+
                     break;
                 case 40:
                     board.moveDown();
                     board.player.setImage("PlayerSprites/Down" + changer);
-                    
+
                     break;
             }
             if (changer == 1) {
@@ -144,9 +147,9 @@ public class GameBoard extends JFrame {
 
     private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_resetBtnMouseClicked
-    
+
     private void formKeyReleased(java.awt.event.KeyEvent evt) {
 //        switch (evt.getKeyCode()) {
 //            case 37:
