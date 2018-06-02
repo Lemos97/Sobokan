@@ -169,7 +169,8 @@ public class GameBoard extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        // TODO add your handling code here:
+  
+        
         if (board.isComplete()) {
             Object[] options = {"Yes", "No"};
             int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
@@ -184,19 +185,22 @@ public class GameBoard extends JFrame {
                 case 37:
                     board.moveLeft();
                     board.player.setImage("PlayerSprites/Left" + changer);
+                    board.setGameStates(board.toString());
                     break;
                 case 39:
                     board.moveRight();
                     board.player.setImage("PlayerSprites/Right" + changer);
-
+                    board.setGameStates(board.toString());
                     break;
                 case 38:
                     board.moveUp();
                     board.player.setImage("PlayerSprites/Up" + changer);
+                    board.setGameStates(board.toString());
                     break;
-                case 40:
+                case 40:                    
                     board.moveDown();
                     board.player.setImage("PlayerSprites/Down" + changer);
+                    board.setGameStates(board.toString());
                     break;
             }
             if (changer == 1) {
@@ -216,6 +220,7 @@ public class GameBoard extends JFrame {
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
         board.SetWorld(boardLevel.gameResetState);
+        board.setGameStatesToNull(boardLevel.gameResetState);
         this.repaint();
     }//GEN-LAST:event_resetBtnActionPerformed
 
@@ -228,7 +233,9 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
-        // TODO add your handling code here:
+        board.setGameStateIter(-1);
+        board.SetWorld(board.getGameStates());
+        this.repaint();
     }//GEN-LAST:event_undoBtnActionPerformed
 
     private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed

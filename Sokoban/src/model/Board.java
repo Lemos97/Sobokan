@@ -6,6 +6,7 @@
 package model;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -19,7 +20,7 @@ public final class Board extends JPanel {
     private Floor floor;
     private Wall wall;
     private Obstacle obstacle;
-    private List<String> gameStates;
+    private ArrayList<String> gameStates = new ArrayList<String>();
     public String gameResetState;
     public static final char EMPTY = ' ';
     public static final char PLAYER = '@';
@@ -28,8 +29,7 @@ public final class Board extends JPanel {
     public static final char WALL = '#';
     private char[][] targets;
     private char[][] world;
-    private int linhas, colunas;
-    private int lvlNum;
+    private int linhas, colunas, gameStateIter = 0, lvlNum;
 
     public Board() {
         this("################\n"
@@ -46,25 +46,12 @@ public final class Board extends JPanel {
     public int getLvlNum(){return lvlNum;}
     public Board(String board, int lvlNum, int pX, int pY) {
         this.lvlNum = lvlNum;
-        String[] lines = board.split("\n");
-        int maior = lines[0].length();
-        for (int l = 1; l < lines.length; l++) {
-            if (lines[l].length() > maior) {
-                maior = lines[l].length();
-            }
-        }
+        SetWorld(board);  
         gameResetState = board;
+        gameStates.add(gameResetState);
         player = new Player(pX, pY);
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
-
-        this.linhas = lines.length;
-        this.colunas = maior;
-        world = new char[lines.length][];
-        targets = new char[lines.length][maior];
-        for (int i = 0; i < lines.length; i++) {
-            world[i] = lines[i].toCharArray();
-        }
     }
     
     public void SetWorld(String board){
@@ -83,6 +70,7 @@ public final class Board extends JPanel {
         for (int i = 0; i < lines.length; i++) {
             world[i] = lines[i].toCharArray();
         }
+        getTargetPosition();
     }
    
     public String toString() {
@@ -218,6 +206,7 @@ public final class Board extends JPanel {
         float dc = ((float) this.getWidth()) / colunas;
         float dl = ((float) this.getHeight()) / linhas;
 
+        reDrawObjective();
         for (int l = 0; l < linhas; l++) {
             for (int c = 0; c < colunas; c++) {
                 if (world[l][c] == TARGET) {
@@ -243,17 +232,43 @@ public final class Board extends JPanel {
             }
         }
     }
-
+    
+    
+     private void reDrawObjective(){
+         for (int l = 0; l < world.length; l++) {
+            for (int c = 0; c < world[l].length; c++) {
+                if (world[l][c] == EMPTY && targets[l][c] == TARGET) {
+                   world[l][c] = TARGET;
+                }
+            }
+        }
+     }
     public void setGameStates(String state) {
-        if (gameStates.size() >= 4) {
+        gameStates.add(state);
+        if (gameStates.size() < 4) {
+            this.gameStateIter += 1;
+        }
+         if (gameStates.size() > 4) {
             gameStates.remove(0);
         }
-        gameStates.add(state);
     }
-
     
-    
+    public void setGameStateIter(int a){
+        this.gameStateIter += a;
+        if (this.gameStateIter < 0){
+            this.gameStateIter=0;
+        }
+        else if (this.gameStateIter > 4 ){
+            this.gameStateIter = 4;
+        }
+    }
     public String getGameStates() {
-        return gameStates.get(0);
+        return gameStates.get(this.gameStateIter);
+    }
+    
+    public void setGameStatesToNull(String board){
+        gameStates.clear();
+        gameStates.add(board);
+        this.gameStateIter = 0;
     }
 }
