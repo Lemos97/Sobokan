@@ -37,6 +37,7 @@ public class GameBoard extends JFrame {
         this.setLocationRelativeTo(null);
         boardLevel = new Board(levels.getLevelLayout(), levels.getLevelId(), 5, 4);
         initComponents();
+        buttonStateFloater();
         resetBtn.setFocusable(false);
         exitBtn.setFocusable(false);
         saveBtn.setFocusable(false);
@@ -169,8 +170,6 @@ public class GameBoard extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-  
-        
         if (board.isComplete()) {
             Object[] options = {"Yes", "No"};
             int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
@@ -208,6 +207,7 @@ public class GameBoard extends JFrame {
             } else {
                 changer = 1;
             }
+            buttonStateFloater();
             board.repaint();
         }
 
@@ -219,8 +219,9 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_resetBtnMouseClicked
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-        board.SetWorld(boardLevel.gameResetState);
+        board.setWorld(boardLevel.gameResetState);
         board.setGameStatesToNull(boardLevel.gameResetState);
+        buttonStateFloater();
         this.repaint();
     }//GEN-LAST:event_resetBtnActionPerformed
 
@@ -233,15 +234,30 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
-        board.setGameStateIter(-1);
-        board.SetWorld(board.getGameStates());
+        board.setWorld(board.getGameStatesUndo());
+        buttonStateFloater();
         this.repaint();
     }//GEN-LAST:event_undoBtnActionPerformed
 
     private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
-        // TODO add your handling code here:
+        board.setWorld(board.getGameStatesRedo());
+        buttonStateFloater();
+        this.repaint();
     }//GEN-LAST:event_redoBtnActionPerformed
 
+    private void buttonStateFloater(){
+        int a = board.getGameStatesSize();
+        int b = board.getGameStateIter() + 1;
+        if(a == 1 || board.getIter() == 0)
+            undoBtn.setEnabled(false);
+        else
+            undoBtn.setEnabled(true);
+        if(a == b)
+            redoBtn.setEnabled(false);
+        else
+            redoBtn.setEnabled(true);
+    }
+    
     private void formKeyReleased(java.awt.event.KeyEvent evt) {
 //        switch (evt.getKeyCode()) {
 //            case 37:

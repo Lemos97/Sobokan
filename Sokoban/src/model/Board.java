@@ -7,7 +7,6 @@ package model;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -15,7 +14,6 @@ import javax.swing.JPanel;
  * @author bruno
  */
 public final class Board extends JPanel {
-
     public Player player;
     private Floor floor;
     private Wall wall;
@@ -30,6 +28,7 @@ public final class Board extends JPanel {
     private char[][] targets;
     private char[][] world;
     private int linhas, colunas, gameStateIter = 0, lvlNum;
+    private boolean undoRedoEnable = false;
 
     public Board() {
         this("################\n"
@@ -42,11 +41,10 @@ public final class Board extends JPanel {
                 + "################\n", 1, 5, 4);
     }
     
-    
-    public int getLvlNum(){return lvlNum;}
+    public int getLvlNum() { return lvlNum; }
     public Board(String board, int lvlNum, int pX, int pY) {
         this.lvlNum = lvlNum;
-        SetWorld(board);  
+        setWorld(board);  
         gameResetState = board;
         gameStates.add(gameResetState);
         player = new Player(pX, pY);
@@ -54,7 +52,7 @@ public final class Board extends JPanel {
         wall = new Wall(lvlNum);
     }
     
-    public void SetWorld(String board){
+    public void setWorld(String board) {
          String[] lines = board.split("\n");
         int maior = lines[0].length();
         for (int l = 1; l < lines.length; l++) {
@@ -205,8 +203,7 @@ public final class Board extends JPanel {
     public void paint(Graphics g) {
         float dc = ((float) this.getWidth()) / colunas;
         float dl = ((float) this.getHeight()) / linhas;
-
-        reDrawObjective();
+        
         for (int l = 0; l < linhas; l++) {
             for (int c = 0; c < colunas; c++) {
                 if (world[l][c] == TARGET) {
@@ -218,7 +215,6 @@ public final class Board extends JPanel {
                     obstacle = new Obstacle(l, c);
                     g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
-                //g.fillRect(Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl));
                 if (world[l][c] == WALL) {
                     g.drawImage(wall.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
@@ -233,42 +229,43 @@ public final class Board extends JPanel {
         }
     }
     
-    
-     private void reDrawObjective(){
-         for (int l = 0; l < world.length; l++) {
-            for (int c = 0; c < world[l].length; c++) {
-                if (world[l][c] == EMPTY && targets[l][c] == TARGET) {
-                   world[l][c] = TARGET;
-                }
-            }
-        }
-     }
     public void setGameStates(String state) {
         gameStates.add(state);
-        if (gameStates.size() < 4) {
+        if (gameStates.size() <= 4) {
             this.gameStateIter += 1;
-        }
-         if (gameStates.size() > 4) {
+        } else {
             gameStates.remove(0);
         }
     }
     
-    public void setGameStateIter(int a){
-        this.gameStateIter += a;
-        if (this.gameStateIter < 0){
-            this.gameStateIter=0;
-        }
-        else if (this.gameStateIter > 4 ){
-            this.gameStateIter = 4;
-        }
+    public int getGameStateIter(){
+        return this.gameStateIter;
     }
-    public String getGameStates() {
+    
+    public String getGameStatesUndo() {
+        if(this.gameStateIter > 0)
+            this.gameStateIter -= 1; 
         return gameStates.get(this.gameStateIter);
     }
+    
+    public String getGameStatesRedo() {
+        if (this.gameStateIter < 3)
+            this.gameStateIter += 1;
+        return gameStates.get(this.gameStateIter);
+    }
+    
     
     public void setGameStatesToNull(String board){
         gameStates.clear();
         gameStates.add(board);
         this.gameStateIter = 0;
+    }
+    
+    public int getGameStatesSize() {
+        return gameStates.size();
+    }
+    
+    public int getIter(){
+        return this.gameStateIter;
     }
 }
