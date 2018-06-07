@@ -182,6 +182,7 @@ public class SplashScreen extends JFrame {
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
             try {
+                Level aa = a.GetLevel(file.getPath());
                 GameBoard game = new GameBoard(a.GetLevel(file.getPath()));
                 Runnable runner = () -> {
                     /* Create and display the form */
@@ -189,7 +190,7 @@ public class SplashScreen extends JFrame {
                 };
 
                 EventQueue.invokeLater(runner);
-            } catch (URISyntaxException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         }

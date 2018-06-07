@@ -28,14 +28,14 @@ public class GameBoard extends JFrame {
     /**
      * Creates new form GamePanel
      */
-    public GameBoard(Level levels) {
+    public GameBoard(Level level) {
         this.setUndecorated(true);
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        boardLevel = new Board(levels.getLevelLayout(), levels.getLevelId(), 5, 4);
+        boardLevel = new Board(level.getLevelLayout(), level.getLevelId(), 5, 4);
         initComponents();
         buttonStateFloater();
         resetBtn.setFocusable(false);
@@ -54,6 +54,7 @@ public class GameBoard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        board1 = new model.Board();
         jPanel = new javax.swing.JPanel();
         resetBtn = new javax.swing.JButton();
         undoBtn = new javax.swing.JButton();
@@ -61,6 +62,17 @@ public class GameBoard extends JFrame {
         exitBtn = new javax.swing.JButton();
         redoBtn = new javax.swing.JButton();
         board = new model.Board();
+
+        javax.swing.GroupLayout board1Layout = new javax.swing.GroupLayout(board1);
+        board1.setLayout(board1Layout);
+        board1Layout.setHorizontalGroup(
+            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        board1Layout.setVerticalGroup(
+            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -70,9 +82,9 @@ public class GameBoard extends JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
             }
-	    public void keyReleased(java.awt.event.KeyEvent evt) {
-	    	formKeyReleased(evt);
-	    }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
         });
 
         resetBtn.setText("Reset");
@@ -155,59 +167,6 @@ public class GameBoard extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (board.isComplete()) {
-            Object[] options = {"Yes", "No"};
-            int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-            if (choice == 0) {
-                this.dispose();
-            }
-
-        } else {
-
-            switch (evt.getKeyCode()) {
-                case 37:
-                    board.moveLeft();
-                    board.player.setImage("PlayerSprites/Left" + changer);
-                    board.setGameStates(board.toString());
-                    break;
-                case 39:
-                    board.moveRight();
-                    board.player.setImage("PlayerSprites/Right" + changer);
-                    board.setGameStates(board.toString());
-                    break;
-                case 38:
-                    board.moveUp();
-                    board.player.setImage("PlayerSprites/Up" + changer);
-                    board.setGameStates(board.toString());
-                    break;
-                case 40:                    
-                    board.moveDown();
-                    board.player.setImage("PlayerSprites/Down" + changer);
-                    board.setGameStates(board.toString());
-                    break;
-            }
-            if (changer == 1) {
-                changer = 2;
-            } else {
-                changer = 1;
-            }
-            if(board.getUndoRedoFalse()){
-                board.setGameStatesToNull(board.toString());
-                board.setUndoRedoFalse();
-            }
-            buttonStateFloater();
-            board.repaint();
-        }
-
-    }//GEN-LAST:event_formKeyPressed
-
-    private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_resetBtnMouseClicked
-
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
         board.setWorld(boardLevel.gameResetState);
         board.setGameStatesToNull(boardLevel.gameResetState);
@@ -235,21 +194,55 @@ public class GameBoard extends JFrame {
         this.repaint();
     }//GEN-LAST:event_redoBtnActionPerformed
 
-    private void buttonStateFloater(){
-        int a = board.getGameStatesSize();
-        int b = board.getGameStateIter() + 1;
-        if(a == 1 || board.getGameStateIter() == 0)
-            undoBtn.setEnabled(false);
-        else
-            undoBtn.setEnabled(true);
-        if(a == b)
-            redoBtn.setEnabled(false);
-        else
-            redoBtn.setEnabled(true);
-    }
-    
-    private void formKeyReleased(java.awt.event.KeyEvent evt) {
-        switch (evt.getKeyCode()) {
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        if (board.isComplete()) {
+            Object[] options = {"Yes", "No"};
+            int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+            if (choice == 0) {
+                this.dispose();
+            }
+
+        } else {
+
+            switch (evt.getKeyCode()) {
+                case 37:
+                board.moveLeft();
+                board.player.setImage("PlayerSprites/Left" + changer);
+                board.setGameStates(board.toString());
+                break;
+                case 39:
+                board.moveRight();
+                board.player.setImage("PlayerSprites/Right" + changer);
+                board.setGameStates(board.toString());
+                break;
+                case 38:
+                board.moveUp();
+                board.player.setImage("PlayerSprites/Up" + changer);
+                board.setGameStates(board.toString());
+                break;
+                case 40:
+                board.moveDown();
+                board.player.setImage("PlayerSprites/Down" + changer);
+                board.setGameStates(board.toString());
+                break;
+            }
+            if (changer == 1) {
+                changer = 2;
+            } else {
+                changer = 1;
+            }
+            if(board.getUndoRedoFalse()){
+                board.setGameStatesToNull(board.toString());
+                board.setUndoRedoFalse();
+            }
+            buttonStateFloater();
+            board.repaint();
+        }
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+         switch (evt.getKeyCode()) {
             case 37:
                 board.player.setImage("PlayerSprites/Left");
                 break;
@@ -264,7 +257,21 @@ public class GameBoard extends JFrame {
                 break;
         }
         board.repaint();
+    }//GEN-LAST:event_formKeyReleased
+
+    private void buttonStateFloater(){
+        int a = board.getGameStatesSize();
+        int b = board.getGameStateIter() + 1;
+        if(a == 1 || board.getGameStateIter() == 0)
+            undoBtn.setEnabled(false);
+        else
+            undoBtn.setEnabled(true);
+        if(a == b)
+            redoBtn.setEnabled(false);
+        else
+            redoBtn.setEnabled(true);
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
     private model.Board board1;

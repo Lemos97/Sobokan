@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import model.Level;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -36,15 +37,18 @@ public class FileReader {
         }
     }
 
-    public Level GetLevel(String path) throws URISyntaxException {
+    public Level GetLevel(String path) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Path filePath = Paths.get(path);
             File from = new File(filePath.toString());
             //JSON from String to List<Level>
-            Level mySaveLvl = mapper.readValue(from, mapper.getTypeFactory().constructCollectionType(List.class, Level.class));
+            Level mySaveLvl = mapper.readValue(from, mapper.getTypeFactory().constructType(Level.class));
             return mySaveLvl;
         } catch (IOException ex) {
+            
+            String a = ex.toString();
+            
         }
         return null;
     }
@@ -64,6 +68,9 @@ public class FileReader {
                 mapper.writeValue(to, a);
                 return;
             }
+            PrintWriter writer = new PrintWriter(to);
+            writer.print("");
+            writer.close();
             mapper.writeValue(to, a);
         } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(FileReader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
