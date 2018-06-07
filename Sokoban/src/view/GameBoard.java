@@ -54,7 +54,6 @@ public class GameBoard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        board1 = new model.Board();
         jPanel = new javax.swing.JPanel();
         resetBtn = new javax.swing.JButton();
         undoBtn = new javax.swing.JButton();
@@ -62,17 +61,6 @@ public class GameBoard extends JFrame {
         exitBtn = new javax.swing.JButton();
         redoBtn = new javax.swing.JButton();
         board = new model.Board();
-
-        javax.swing.GroupLayout board1Layout = new javax.swing.GroupLayout(board1);
-        board1.setLayout(board1Layout);
-        board1Layout.setHorizontalGroup(
-            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        board1Layout.setVerticalGroup(
-            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -82,14 +70,12 @@ public class GameBoard extends JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
             }
+	    public void keyReleased(java.awt.event.KeyEvent evt) {
+	    	formKeyReleased(evt);
+	    }
         });
 
         resetBtn.setText("Reset");
-        resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                resetBtnMouseClicked(evt);
-            }
-        });
         resetBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetBtnActionPerformed(evt);
@@ -207,6 +193,10 @@ public class GameBoard extends JFrame {
             } else {
                 changer = 1;
             }
+            if(board.getUndoRedoFalse()){
+                board.setGameStatesToNull(board.toString());
+                board.setUndoRedoFalse();
+            }
             buttonStateFloater();
             board.repaint();
         }
@@ -248,7 +238,7 @@ public class GameBoard extends JFrame {
     private void buttonStateFloater(){
         int a = board.getGameStatesSize();
         int b = board.getGameStateIter() + 1;
-        if(a == 1 || board.getIter() == 0)
+        if(a == 1 || board.getGameStateIter() == 0)
             undoBtn.setEnabled(false);
         else
             undoBtn.setEnabled(true);
@@ -259,21 +249,21 @@ public class GameBoard extends JFrame {
     }
     
     private void formKeyReleased(java.awt.event.KeyEvent evt) {
-//        switch (evt.getKeyCode()) {
-//            case 37:
-//                board.player.setImage("PlayerSprites/Left");
-//                break;
-//            case 39:
-//                board.player.setImage("PlayerSprites/Right");
-//                break;
-//            case 38:
-//                board.player.setImage("PlayerSprites/Up");
-//                break;
-//            case 40:
-//                board.player.setImage("PlayerSprites/Down");
-//                break;
-//        }
-//        board.repaint();
+        switch (evt.getKeyCode()) {
+            case 37:
+                board.player.setImage("PlayerSprites/Left");
+                break;
+            case 39:
+                board.player.setImage("PlayerSprites/Right");
+                break;
+            case 38:
+                board.player.setImage("PlayerSprites/Up");
+                break;
+            case 40:
+                board.player.setImage("PlayerSprites/Down");
+                break;
+        }
+        board.repaint();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;

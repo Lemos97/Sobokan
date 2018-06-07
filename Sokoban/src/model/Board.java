@@ -53,14 +53,13 @@ public final class Board extends JPanel {
     }
     
     public void setWorld(String board) {
-         String[] lines = board.split("\n");
+        String[] lines = board.split("\n");
         int maior = lines[0].length();
         for (int l = 1; l < lines.length; l++) {
             if (lines[l].length() > maior) {
                 maior = lines[l].length();
             }
         }
-
         this.linhas = lines.length;
         this.colunas = maior;
         world = new char[lines.length][];
@@ -243,17 +242,25 @@ public final class Board extends JPanel {
     }
     
     public String getGameStatesUndo() {
+        this.undoRedoEnable = true;
         if(this.gameStateIter > 0)
             this.gameStateIter -= 1; 
         return gameStates.get(this.gameStateIter);
     }
     
     public String getGameStatesRedo() {
+        this.undoRedoEnable = true;
         if (this.gameStateIter < 3)
             this.gameStateIter += 1;
         return gameStates.get(this.gameStateIter);
     }
     
+    public boolean getUndoRedoFalse(){
+        return this.undoRedoEnable;
+    }
+    public void setUndoRedoFalse(){
+        this.undoRedoEnable = false;
+    }
     
     public void setGameStatesToNull(String board){
         gameStates.clear();
@@ -263,9 +270,5 @@ public final class Board extends JPanel {
     
     public int getGameStatesSize() {
         return gameStates.size();
-    }
-    
-    public int getIter(){
-        return this.gameStateIter;
     }
 }
