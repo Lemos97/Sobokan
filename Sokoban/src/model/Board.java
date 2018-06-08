@@ -30,23 +30,20 @@ public final class Board extends JPanel {
     private int linhas, colunas, gameStateIter = 0, lvlNum;
     private boolean undoRedoEnable = false;
 
-    public Board() {
-        this("################\n"
-                + "#   #      #   #\n"
-                + "#  #   $    #  #\n"
-                + "#       ##    .#\n"
-                + "#  @  #    #   #\n"
-                + "#     #      # #\n"
-                + "#   #     #    #\n"
-                + "################\n", 1, 5, 4);
-    }
     
-    public int getLvlNum() { return lvlNum; }
-    public Board(String board, int lvlNum, int pX, int pY) {
+    
+    public int getLvlNum(){return lvlNum;}
+    
+    public Board(Level board, int pX, int pY) {
         this.lvlNum = lvlNum;
-        setWorld(board);  
-        gameResetState = board;
-        gameStates.add(gameResetState);
+        String[] lines = board.getLevelLayout().split("\n");
+        int maior = lines[0].length();
+        for (int l = 1; l < lines.length; l++) {
+            if (lines[l].length() > maior) {
+                maior = lines[l].length();
+            }
+        }
+        gameResetState = board.getLevelLayout();
         player = new Player(pX, pY);
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);

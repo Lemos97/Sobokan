@@ -8,6 +8,7 @@ package view;
 import Controlers.FileReader;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Board;
@@ -23,19 +24,20 @@ public class GameBoard extends JFrame {
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
     private int changer = 1;
+    ArrayList<Level> Levels;
     private Board boardLevel;
 
     /**
      * Creates new form GamePanel
      */
-    public GameBoard(Level level) {
+    public GameBoard(Level level, ArrayList<Level> levels) {
         this.setUndecorated(true);
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        boardLevel = new Board(level.getLevelLayout(), level.getLevelId(), 5, 4);
+        boardLevel = new Board(level, 5, 4);
         initComponents();
         buttonStateFloater();
         resetBtn.setFocusable(false);
@@ -54,25 +56,13 @@ public class GameBoard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        board1 = new model.Board();
         jPanel = new javax.swing.JPanel();
         resetBtn = new javax.swing.JButton();
         undoBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
         redoBtn = new javax.swing.JButton();
-        board = new model.Board();
-
-        javax.swing.GroupLayout board1Layout = new javax.swing.GroupLayout(board1);
-        board1.setLayout(board1Layout);
-        board1Layout.setHorizontalGroup(
-            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        board1Layout.setVerticalGroup(
-            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        board = boardLevel;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -202,9 +192,7 @@ public class GameBoard extends JFrame {
             if (choice == 0) {
                 this.dispose();
             }
-
         } else {
-
             switch (evt.getKeyCode()) {
                 case 37:
                 board.moveLeft();
@@ -274,7 +262,6 @@ public class GameBoard extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
-    private model.Board board1;
     private javax.swing.JButton exitBtn;
     private javax.swing.JPanel jPanel;
     private javax.swing.JButton redoBtn;
