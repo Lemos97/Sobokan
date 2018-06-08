@@ -162,7 +162,7 @@ public class SplashScreen extends JFrame {
         int option = JOptionPane.showOptionDialog(this, "Qual Nivel quer escolher?", "Escolha um nível", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options.toArray(), options.get(0));
 
         if (option > -1) {
-            GameBoard game = new GameBoard(Levels.get(option));
+            GameBoard game = new GameBoard(Levels.get(option), Levels);
             Runnable runner = () -> {
                 /* Create and display the form */
                 game.setVisible(true);
@@ -182,7 +182,7 @@ public class SplashScreen extends JFrame {
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
             try {
-                GameBoard game = new GameBoard(a.GetSavedLevel(file.getPath()));
+                GameBoard game = new GameBoard(a.GetSavedLevel(file.getPath()), Levels);
                 Runnable runner = () -> {
                     /* Create and display the form */
                     game.setVisible(true);
