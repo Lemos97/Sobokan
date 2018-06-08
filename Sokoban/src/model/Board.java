@@ -42,10 +42,10 @@ public final class Board extends JPanel {
     }
     
     public int getLvlNum() { return lvlNum; }
-    public Board(Level level, int lvlNum, int pX, int pY) {
+    public Board(String board, int lvlNum, int pX, int pY) {
         this.lvlNum = lvlNum;
-        setWorld(level.getLevelLayout());  
-        gameResetState = level.getLevelLayout();
+        setWorld(board);  
+        gameResetState = board;
         gameStates.add(gameResetState);
         player = new Player(pX, pY);
         floor = new Floor(lvlNum);

@@ -35,7 +35,8 @@ public class FileReader {
             File from = new File(filePath.toString());
             //JSON from String to List<Level>
             List<Level> myLevels = mapper.readValue(from, mapper.getTypeFactory().constructCollectionType(List.class, Level.class));
-            return (ArrayList) myLevels;
+            ArrayList<Level> aa = (ArrayList) myLevels;
+            return aa;
         } catch (IOException | URISyntaxException ex) {
             return null;
         }
