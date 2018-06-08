@@ -23,6 +23,11 @@ import java.util.logging.Logger;
  */
 public class FileReader {
 
+    
+    /**
+     * Reads a json file that contains all the levels and parses' it's content into an ArrayList of type Level
+     * @return ArrayList<Level> return the ArrayList<Level> generated  
+    */
     public ArrayList<Level> GetAllLevels() {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -37,7 +42,11 @@ public class FileReader {
         }
     }
 
-    public Level GetLevel(String path) {
+    /**
+     * Reads a json file that contains the saved level and parses' it's content into an object if type Level
+     * @return Level: returns the Level generated  
+    */
+    public Level GetSavedLevel(String path) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Path filePath = Paths.get(path);
@@ -53,6 +62,9 @@ public class FileReader {
         return null;
     }
 
+    /**
+     * Creates/Changes a json file that will contain/contains the LevelState and parses' it's content into an object if type Level
+    */
     public void SaveLevelState(String gameState, int numLvl) {
         Level a = new Level();
         a.setLevelId(numLvl);

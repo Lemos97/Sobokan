@@ -182,13 +182,11 @@ public class SplashScreen extends JFrame {
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
             try {
-                Level aa = a.GetLevel(file.getPath());
-                GameBoard game = new GameBoard(a.GetLevel(file.getPath()));
+                GameBoard game = new GameBoard(a.GetSavedLevel(file.getPath()));
                 Runnable runner = () -> {
                     /* Create and display the form */
                     game.setVisible(true);
                 };
-
                 EventQueue.invokeLater(runner);
             } catch (Exception ex) {
                 Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
