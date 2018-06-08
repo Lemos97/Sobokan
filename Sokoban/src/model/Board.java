@@ -30,30 +30,20 @@ public final class Board extends JPanel {
     private char[][] world;
     private int linhas, colunas;
     private int lvlNum;
-
-    public Board() {
-        this("################\n"
-                + "#   #      #   #\n"
-                + "#  #   $    #  #\n"
-                + "#       ##    .#\n"
-                + "#  @  #    #   #\n"
-                + "#     #      # #\n"
-                + "#   #     #    #\n"
-                + "################\n", 1, 5, 4);
-    }
     
     
     public int getLvlNum(){return lvlNum;}
-    public Board(String board, int lvlNum, int pX, int pY) {
+    
+    public Board(Level board, int pX, int pY) {
         this.lvlNum = lvlNum;
-        String[] lines = board.split("\n");
+        String[] lines = board.getLevelLayout().split("\n");
         int maior = lines[0].length();
         for (int l = 1; l < lines.length; l++) {
             if (lines[l].length() > maior) {
                 maior = lines[l].length();
             }
         }
-        gameResetState = board;
+        gameResetState = board.getLevelLayout();
         player = new Player(pX, pY);
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
@@ -250,8 +240,6 @@ public final class Board extends JPanel {
         }
         gameStates.add(state);
     }
-
-    
     
     public String getGameStates() {
         return gameStates.get(0);

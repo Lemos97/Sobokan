@@ -42,7 +42,4 @@ public class Level {
         levelLayout = levelLayout.replace("\\n", "\n");
         this.levelLayout = levelLayout;
     } 
-    
-    //getters & setters
-    //toString
 }
