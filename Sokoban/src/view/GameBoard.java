@@ -39,6 +39,8 @@ public class GameBoard extends JFrame {
         this.setLocationRelativeTo(null);
         boardLevel = new Board(level, 5, 4);
         initComponents();
+        board.setWorld(boardLevel.gameResetState);
+        board.setGameStatesToNull(boardLevel.gameResetState);
         buttonStateFloater();
         resetBtn.setFocusable(false);
         exitBtn.setFocusable(false);

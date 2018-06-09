@@ -34,8 +34,10 @@ public final class Board extends JPanel {
     
     public int getLvlNum(){return lvlNum;}
     
+    public Board(){this(null,0,0);}
+    
     public Board(Level board, int pX, int pY) {
-        this.lvlNum = lvlNum;
+        this.lvlNum = board.getLevelId();
         String[] lines = board.getLevelLayout().split("\n");
         int maior = lines[0].length();
         for (int l = 1; l < lines.length; l++) {
