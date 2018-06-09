@@ -190,7 +190,7 @@ public final class Board extends JPanel {
     public boolean isComplete() {
         for (int l = 0; l < world.length; l++) {
             for (int c = 0; c < world[l].length; c++) {
-                if (world[l][c] == '.' && targets[l][c] != '$') {
+                if ((world[l][c] == '.' && targets[l][c] != '$') || (world[l][c] == '@' && targets[l][c] == '.')) {
                     return false;
                 }
             }
