@@ -46,7 +46,6 @@ public class Sokoban {
             new SplashScreen().setVisible(true);
             //new GameBoard(Levels.get(0)).setVisible(true);
         };
-        EventQueue.invokeLater(runner);
-                
+        EventQueue.invokeLater(runner);  
     }
 }

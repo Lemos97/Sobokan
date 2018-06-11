@@ -31,7 +31,7 @@ public class FileReader {
     public ArrayList<Level> GetAllLevels() {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            Path filePath = Paths.get(getClass().getResource("/Resources/levels.json").toURI());
+            Path filePath = Paths.get(getClass().getResource("/Resources/Levels.json").toURI());
             File from = new File(filePath.toString());
             //JSON from String to List<Level>
             List<Level> myLevels = mapper.readValue(from, mapper.getTypeFactory().constructCollectionType(List.class, Level.class));

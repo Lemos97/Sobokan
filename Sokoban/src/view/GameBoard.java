@@ -19,6 +19,7 @@ import model.Level;
  * @author Alexandre
  */
 public class GameBoard extends JFrame {
+
     private FileReader a = new FileReader();
     private static final int DEFAULT_WIDTH = 480;
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
@@ -143,6 +144,15 @@ public class GameBoard extends JFrame {
 
         getContentPane().add(jPanel, java.awt.BorderLayout.NORTH);
 
+        board.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                boardMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                boardMouseReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout boardLayout = new javax.swing.GroupLayout(board);
         board.setLayout(boardLayout);
         boardLayout.setHorizontalGroup(
@@ -167,11 +177,21 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_resetBtnActionPerformed
 
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        Object[] options = {"Sim!", "Não."};
+        int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja sair?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+        if (choice == 0) {
             System.exit(0);
+        }
     }//GEN-LAST:event_exitBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        a.SaveLevelState(board.toString(), board.getLvlNum());        
+        try {
+            a.SaveLevelState(board.toString(), board.getLvlNum());
+            JOptionPane.showMessageDialog(this, "O ficheiro foi guardado com sucesso", "Guardado!", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao guardar o seu ficheiro. \n\n" + ex.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
@@ -187,9 +207,9 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_redoBtnActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (board.isComplete()) {
-            Object[] options = {"Yes", "No"};
-            int choice = JOptionPane.showOptionDialog(this, "Deseja sair?", "Ganhou!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        if (board.isComplete() && evt.getKeyCode() != 27) {
+            Object[] options = {"Sim!", "Não."};
+            int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
             if (choice == 0) {
                 this.dispose();
@@ -197,32 +217,40 @@ public class GameBoard extends JFrame {
         } else {
             switch (evt.getKeyCode()) {
                 case 37:
-                board.moveLeft();
-                board.player.setImage("PlayerSprites/Left" + changer);
-                board.setGameStates(board.toString());
-                break;
+                    board.moveLeft();
+                    board.player.setImage("PlayerSprites/Left" + changer);
+                    board.setGameStates(board.toString());
+                    break;
                 case 39:
-                board.moveRight();
-                board.player.setImage("PlayerSprites/Right" + changer);
-                board.setGameStates(board.toString());
-                break;
+                    board.moveRight();
+                    board.player.setImage("PlayerSprites/Right" + changer);
+                    board.setGameStates(board.toString());
+                    break;
                 case 38:
-                board.moveUp();
-                board.player.setImage("PlayerSprites/Up" + changer);
-                board.setGameStates(board.toString());
-                break;
+                    board.moveUp();
+                    board.player.setImage("PlayerSprites/Up" + changer);
+                    board.setGameStates(board.toString());
+                    break;
                 case 40:
-                board.moveDown();
-                board.player.setImage("PlayerSprites/Down" + changer);
-                board.setGameStates(board.toString());
-                break;
+                    board.moveDown();
+                    board.player.setImage("PlayerSprites/Down" + changer);
+                    board.setGameStates(board.toString());
+                    break;
+                case 27:
+                    board.setWorld(boardLevel.gameResetState);
+                    board.setGameStatesToNull(boardLevel.gameResetState);
+                    buttonStateFloater();
+                    this.repaint();
+                    break;
+                default:
+                    break;
             }
             if (changer == 1) {
                 changer = 2;
             } else {
                 changer = 1;
             }
-            if(board.getUndoRedoFalse()){
+            if (board.getUndoRedoFalse()) {
                 board.setGameStatesToNull(board.toString());
                 board.setUndoRedoFalse();
             }
@@ -232,7 +260,7 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-         switch (evt.getKeyCode()) {
+        switch (evt.getKeyCode()) {
             case 37:
                 board.player.setImage("PlayerSprites/Left");
                 break;
@@ -249,7 +277,87 @@ public class GameBoard extends JFrame {
         board.repaint();
     }//GEN-LAST:event_formKeyReleased
 
-    private void buttonStateFloater(){
+    private void boardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardMouseReleased
+        int h = this.getHeight() / 3 + ((this.getHeight() / 3) / 2);
+            int w = this.getWidth() / 3 + ((this.getWidth() / 3) / 2);
+
+            if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
+                if (evt.getY() >= (this.getHeight()/2)) 
+                {
+                    board.player.setImage("PlayerSprites/Down");
+                    
+                }else
+                {
+                    board.player.setImage("PlayerSprites/Up");
+                }
+            }
+            else if (evt.getY() >= (h - (h/3)) && evt.getY() <= (h + (h/3))){
+                if (evt.getX() >= (this.getWidth()/2))
+                {
+                    board.player.setImage("PlayerSprites/Right");
+                }else
+                {
+                    board.player.setImage("PlayerSprites/Left");
+                }
+            }
+            board.repaint();
+    }//GEN-LAST:event_boardMouseReleased
+
+    private void boardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardMousePressed
+        if (board.isComplete()) {
+            Object[] options = {"Sim!", "Não."};
+            int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+            if (choice == 0) {
+                this.dispose();
+            }
+        } else {
+            int h = this.getHeight() / 3 + ((this.getHeight() / 3) / 2);
+            int w = this.getWidth() / 3 + ((this.getWidth() / 3) / 2);
+
+            if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
+                if (evt.getY() >= (this.getHeight()/2)) 
+                {
+                    board.moveDown();
+                    board.player.setImage("PlayerSprites/Down" + changer);
+                    board.setGameStates(board.toString());
+                    
+                }else
+                {
+                    board.moveUp();
+                    board.player.setImage("PlayerSprites/Up" + changer);
+                    board.setGameStates(board.toString());
+                }
+            }
+            else if (evt.getY() >= (h - (h/3)) && evt.getY() <= (h + (h/3))){
+                if (evt.getX() >= (this.getWidth()/2))
+                {
+                    board.moveRight();
+                    board.player.setImage("PlayerSprites/Right" + changer);
+                    board.setGameStates(board.toString());
+                }else
+                {
+                    board.moveLeft();
+                    board.player.setImage("PlayerSprites/Left" + changer);
+                    board.setGameStates(board.toString());
+                }
+            }
+      
+            if (changer == 1) {
+                changer = 2;
+            } else {
+                changer = 1;
+            }
+            if(board.getUndoRedoFalse()){
+                board.setGameStatesToNull(board.toString());
+                board.setUndoRedoFalse();
+            }
+            buttonStateFloater();
+            board.repaint();
+        }
+    }//GEN-LAST:event_boardMousePressed
+
+private void buttonStateFloater(){
         int a = board.getGameStatesSize();
         int b = board.getGameStateIter() + 1;
         if(a == 1 || board.getGameStateIter() == 0)
