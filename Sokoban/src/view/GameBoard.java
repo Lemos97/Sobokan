@@ -34,7 +34,6 @@ public class GameBoard extends JFrame {
      */
     public GameBoard(Level level) {
         this.level = level;
-        this.setUndecorated(true);
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
@@ -47,11 +46,9 @@ public class GameBoard extends JFrame {
         buttonStateFloater();
 
         resetBtn.setFocusable(false);
-        exitBtn.setFocusable(false);
         saveBtn.setFocusable(false);
         undoBtn.setFocusable(false);
         redoBtn.setFocusable(false);
-        menuBtn.setFocusable(false);
 
     }
 
@@ -68,12 +65,10 @@ public class GameBoard extends JFrame {
         resetBtn = new javax.swing.JButton();
         undoBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
-        exitBtn = new javax.swing.JButton();
         redoBtn = new javax.swing.JButton();
-        menuBtn = new javax.swing.JButton();
         board = boardLevel;
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setType(java.awt.Window.Type.POPUP);
@@ -100,17 +95,12 @@ public class GameBoard extends JFrame {
             }
         });
 
+        saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/save.png"))); // NOI18N
         saveBtn.setText("Save");
+        saveBtn.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveBtnActionPerformed(evt);
-            }
-        });
-
-        exitBtn.setText("Exit");
-        exitBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitBtnActionPerformed(evt);
             }
         });
 
@@ -118,13 +108,6 @@ public class GameBoard extends JFrame {
         redoBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 redoBtnActionPerformed(evt);
-            }
-        });
-
-        menuBtn.setText("Menu");
-        menuBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuBtnActionPerformed(evt);
             }
         });
 
@@ -140,10 +123,7 @@ public class GameBoard extends JFrame {
                 .addComponent(redoBtn)
                 .addGap(26, 26, 26)
                 .addComponent(saveBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(menuBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exitBtn))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,9 +132,7 @@ public class GameBoard extends JFrame {
                     .addComponent(resetBtn)
                     .addComponent(undoBtn)
                     .addComponent(saveBtn)
-                    .addComponent(exitBtn)
-                    .addComponent(redoBtn)
-                    .addComponent(menuBtn))
+                    .addComponent(redoBtn))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -177,50 +155,13 @@ public class GameBoard extends JFrame {
         );
         boardLayout.setVerticalGroup(
             boardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 261, Short.MAX_VALUE)
+            .addGap(0, 259, Short.MAX_VALUE)
         );
 
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-        board.setWorld(boardLevel.gameResetState);
-        board.setGameStatesToNull(boardLevel.gameResetState);
-        buttonStateFloater();
-        this.repaint();
-    }//GEN-LAST:event_resetBtnActionPerformed
-
-    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
-        Object[] options = {"Sim!", "Não."};
-        int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja sair?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-        if (choice == 0) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_exitBtnActionPerformed
-
-    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        try {
-            a.SaveLevelState(board.toString(), board.getLvlNum());
-            JOptionPane.showMessageDialog(this, "O ficheiro foi guardado com sucesso", "Guardado!", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao guardar o seu ficheiro. \n\n" + ex.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_saveBtnActionPerformed
-
-    private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
-        board.setWorld(board.getGameStatesUndo());
-        buttonStateFloater();
-        this.repaint();
-    }//GEN-LAST:event_undoBtnActionPerformed
-
-    private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
-        board.setWorld(board.getGameStatesRedo());
-        buttonStateFloater();
-        this.repaint();
-    }//GEN-LAST:event_redoBtnActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if (!board.isComplete()) {
@@ -365,14 +306,33 @@ public class GameBoard extends JFrame {
         }
     }//GEN-LAST:event_boardMousePressed
 
-    private void menuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBtnActionPerformed
-        Object[] options = {"Sim!", "Não."};
-        int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Menu Inicial", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+    private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
+        board.setWorld(board.getGameStatesRedo());
+        buttonStateFloater();
+        this.repaint();
+    }//GEN-LAST:event_redoBtnActionPerformed
 
-        if (choice == 0) {
-            this.dispose();
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        try {
+            a.SaveLevelState(board.toString(), board.getLvlNum());
+            JOptionPane.showMessageDialog(this, "O ficheiro foi guardado com sucesso", "Guardado!", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao guardar o seu ficheiro. \n\n" + ex.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_menuBtnActionPerformed
+    }//GEN-LAST:event_saveBtnActionPerformed
+
+    private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
+        board.setWorld(board.getGameStatesUndo());
+        buttonStateFloater();
+        this.repaint();
+    }//GEN-LAST:event_undoBtnActionPerformed
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        board.setWorld(boardLevel.gameResetState);
+        board.setGameStatesToNull(boardLevel.gameResetState);
+        buttonStateFloater();
+        this.repaint();
+    }//GEN-LAST:event_resetBtnActionPerformed
 
     private void buttonStateFloater() {
         int a = board.getGameStatesSize();
@@ -391,9 +351,7 @@ public class GameBoard extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
-    private javax.swing.JButton exitBtn;
     private javax.swing.JPanel jPanel;
-    private javax.swing.JButton menuBtn;
     private javax.swing.JButton redoBtn;
     private javax.swing.JButton resetBtn;
     private javax.swing.JButton saveBtn;
