@@ -164,7 +164,14 @@ public class GameBoard extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (!board.isComplete()) {
+        if (board.isComplete() && evt.getKeyCode() != 27) {
+            Object[] options = {"Sim!", "Não."};
+            int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+            if (choice == 0) {
+                this.dispose();
+            }
+        } else if (!board.isComplete()) {
             switch (evt.getKeyCode()) {
                 case 37:
                     board.moveLeft();
@@ -206,15 +213,6 @@ public class GameBoard extends JFrame {
             }
             buttonStateFloater();
             board.repaint();
-
-            if (board.isComplete() && evt.getKeyCode() != 27) {
-                Object[] options = {"Sim!", "Não."};
-                int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-                if (choice == 0) {
-                    this.dispose();
-                }
-            }
         }
     }//GEN-LAST:event_formKeyPressed
 
