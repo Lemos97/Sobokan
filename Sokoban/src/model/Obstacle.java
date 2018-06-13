@@ -16,9 +16,9 @@ public class Obstacle extends BaseObject {
         private Color oColor;
         
         
-    public Obstacle(int oX, int oY) {
+    public Obstacle(int oX, int oY, int lvlNum) {
         super(oX, oY);
-        this.setImage("Obstacle");
+        this.setImage("Obstacle"+lvlNum);
     }
 
     /**

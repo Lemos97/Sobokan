@@ -25,13 +25,15 @@ public class GameBoard extends JFrame {
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
     private int changer = 1;
-    ArrayList<Level> Levels;
+
+    Level level;
     private Board boardLevel;
 
     /**
      * Creates new form GamePanel
      */
-    public GameBoard(Level level, ArrayList<Level> levels) {
+    public GameBoard(Level level) {
+        this.level = level;
         this.setUndecorated(true);
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
@@ -43,11 +45,14 @@ public class GameBoard extends JFrame {
         board.setWorld(boardLevel.gameResetState);
         board.setGameStatesToNull(boardLevel.gameResetState);
         buttonStateFloater();
+
         resetBtn.setFocusable(false);
         exitBtn.setFocusable(false);
         saveBtn.setFocusable(false);
         undoBtn.setFocusable(false);
         redoBtn.setFocusable(false);
+        menuBtn.setFocusable(false);
+
     }
 
     /**
@@ -65,6 +70,7 @@ public class GameBoard extends JFrame {
         saveBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
         redoBtn = new javax.swing.JButton();
+        menuBtn = new javax.swing.JButton();
         board = boardLevel;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,19 +121,28 @@ public class GameBoard extends JFrame {
             }
         });
 
+        menuBtn.setText("Menu");
+        menuBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
-                .addComponent(resetBtn)
-                .addGap(31, 31, 31)
+                .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(undoBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(redoBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(saveBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(menuBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(exitBtn))
         );
         jPanelLayout.setVerticalGroup(
@@ -138,7 +153,8 @@ public class GameBoard extends JFrame {
                     .addComponent(undoBtn)
                     .addComponent(saveBtn)
                     .addComponent(exitBtn)
-                    .addComponent(redoBtn))
+                    .addComponent(redoBtn)
+                    .addComponent(menuBtn))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -207,33 +223,26 @@ public class GameBoard extends JFrame {
     }//GEN-LAST:event_redoBtnActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (board.isComplete() && evt.getKeyCode() != 27) {
-            Object[] options = {"Sim!", "Não."};
-            int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-            if (choice == 0) {
-                this.dispose();
-            }
-        } else {
+        if (!board.isComplete()) {
             switch (evt.getKeyCode()) {
                 case 37:
                     board.moveLeft();
-                    board.player.setImage("PlayerSprites/Left" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 39:
                     board.moveRight();
-                    board.player.setImage("PlayerSprites/Right" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 38:
                     board.moveUp();
-                    board.player.setImage("PlayerSprites/Up" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 40:
                     board.moveDown();
-                    board.player.setImage("PlayerSprites/Down" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 27:
@@ -256,22 +265,31 @@ public class GameBoard extends JFrame {
             }
             buttonStateFloater();
             board.repaint();
+
+            if (board.isComplete() && evt.getKeyCode() != 27) {
+                Object[] options = {"Sim!", "Não."};
+                int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+                if (choice == 0) {
+                    this.dispose();
+                }
+            }
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         switch (evt.getKeyCode()) {
             case 37:
-                board.player.setImage("PlayerSprites/Left");
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left");
                 break;
             case 39:
-                board.player.setImage("PlayerSprites/Right");
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right");
                 break;
             case 38:
-                board.player.setImage("PlayerSprites/Up");
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up");
                 break;
             case 40:
-                board.player.setImage("PlayerSprites/Down");
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down");
                 break;
         }
         board.repaint();
@@ -279,28 +297,23 @@ public class GameBoard extends JFrame {
 
     private void boardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardMouseReleased
         int h = this.getHeight() / 3 + ((this.getHeight() / 3) / 2);
-            int w = this.getWidth() / 3 + ((this.getWidth() / 3) / 2);
+        int w = this.getWidth() / 3 + ((this.getWidth() / 3) / 2);
 
-            if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
-                if (evt.getY() >= (this.getHeight()/2)) 
-                {
-                    board.player.setImage("PlayerSprites/Down");
-                    
-                }else
-                {
-                    board.player.setImage("PlayerSprites/Up");
-                }
+        if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
+            if (evt.getY() >= (this.getHeight() / 2)) {
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down");
+
+            } else {
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up");
             }
-            else if (evt.getY() >= (h - (h/3)) && evt.getY() <= (h + (h/3))){
-                if (evt.getX() >= (this.getWidth()/2))
-                {
-                    board.player.setImage("PlayerSprites/Right");
-                }else
-                {
-                    board.player.setImage("PlayerSprites/Left");
-                }
+        } else if (evt.getY() >= (h - (h / 3)) && evt.getY() <= (h + (h / 3))) {
+            if (evt.getX() >= (this.getWidth() / 2)) {
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right");
+            } else {
+                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left");
             }
-            board.repaint();
+        }
+        board.repaint();
     }//GEN-LAST:event_boardMouseReleased
 
     private void boardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardMousePressed
@@ -316,39 +329,34 @@ public class GameBoard extends JFrame {
             int w = this.getWidth() / 3 + ((this.getWidth() / 3) / 2);
 
             if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
-                if (evt.getY() >= (this.getHeight()/2)) 
-                {
+                if (evt.getY() >= (this.getHeight() / 2)) {
                     board.moveDown();
-                    board.player.setImage("PlayerSprites/Down" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down" + changer);
                     board.setGameStates(board.toString());
-                    
-                }else
-                {
+
+                } else {
                     board.moveUp();
-                    board.player.setImage("PlayerSprites/Up" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up" + changer);
                     board.setGameStates(board.toString());
                 }
-            }
-            else if (evt.getY() >= (h - (h/3)) && evt.getY() <= (h + (h/3))){
-                if (evt.getX() >= (this.getWidth()/2))
-                {
+            } else if (evt.getY() >= (h - (h / 3)) && evt.getY() <= (h + (h / 3))) {
+                if (evt.getX() >= (this.getWidth() / 2)) {
                     board.moveRight();
-                    board.player.setImage("PlayerSprites/Right" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right" + changer);
                     board.setGameStates(board.toString());
-                }else
-                {
+                } else {
                     board.moveLeft();
-                    board.player.setImage("PlayerSprites/Left" + changer);
+                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left" + changer);
                     board.setGameStates(board.toString());
                 }
             }
-      
+
             if (changer == 1) {
                 changer = 2;
             } else {
                 changer = 1;
             }
-            if(board.getUndoRedoFalse()){
+            if (board.getUndoRedoFalse()) {
                 board.setGameStatesToNull(board.toString());
                 board.setUndoRedoFalse();
             }
@@ -357,23 +365,35 @@ public class GameBoard extends JFrame {
         }
     }//GEN-LAST:event_boardMousePressed
 
-private void buttonStateFloater(){
+    private void menuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBtnActionPerformed
+        Object[] options = {"Sim!", "Não."};
+        int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Menu Inicial", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+        if (choice == 0) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_menuBtnActionPerformed
+
+    private void buttonStateFloater() {
         int a = board.getGameStatesSize();
         int b = board.getGameStateIter() + 1;
-        if(a == 1 || board.getGameStateIter() == 0)
+        if (a == 1 || board.getGameStateIter() == 0) {
             undoBtn.setEnabled(false);
-        else
+        } else {
             undoBtn.setEnabled(true);
-        if(a == b)
+        }
+        if (a == b) {
             redoBtn.setEnabled(false);
-        else
+        } else {
             redoBtn.setEnabled(true);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private model.Board board;
     private javax.swing.JButton exitBtn;
     private javax.swing.JPanel jPanel;
+    private javax.swing.JButton menuBtn;
     private javax.swing.JButton redoBtn;
     private javax.swing.JButton resetBtn;
     private javax.swing.JButton saveBtn;

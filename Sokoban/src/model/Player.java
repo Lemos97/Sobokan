@@ -17,9 +17,9 @@ public class Player extends BaseObject{
         private int vectorX = 10;
         private int vectorY = 10;       
 
-    public Player(int x, int y) {
+    public Player(int x, int y, int lvlId) {
         super(x, y);
-        this.setImage("PlayerSprites/Down");
+        this.setImage("PlayerSprites/"+lvlId+"_Down");
     }
   
     /**

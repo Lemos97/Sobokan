@@ -49,7 +49,7 @@ public final class Board extends JPanel {
             }
         }
         gameResetState = board.getLevelLayout();
-        player = new Player(pX, pY);
+        player = new Player(pX, pY, board.getLevelId());
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
     }
@@ -208,12 +208,12 @@ public final class Board extends JPanel {
         for (int l = 0; l < linhas; l++) {
             for (int c = 0; c < colunas; c++) {
                 if (world[l][c] == TARGET) {
-                    obstacle = new Obstacle(l, c);
-                    obstacle.setImage("Fate");
+                    obstacle = new Obstacle(l, c, this.lvlNum);
+                    obstacle.setImage("Fate"+this.lvlNum);
                     g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == BLOCK) {
-                    obstacle = new Obstacle(l, c);
+                    obstacle = new Obstacle(l, c, this.lvlNum);
                     g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == WALL) {

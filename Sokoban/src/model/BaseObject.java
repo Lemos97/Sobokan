@@ -66,7 +66,7 @@ class BaseObject {
         try {
             this.image = ImageIO.read(getClass().getResource("/Resources/" + imageName + ".png"));
         } catch (IOException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         }
     }
 }
