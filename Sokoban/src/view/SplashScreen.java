@@ -200,7 +200,7 @@ public class SplashScreen extends JFrame {
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
             try {
-                GameBoard game = new GameBoard(a.GetSavedLevel(file.getPath()));
+                GameBoard game = new GameBoard(a.GetSavedLevel(file.getPath()), true);
 
                 Runnable runner = () -> {
                     /* Create and display the form */

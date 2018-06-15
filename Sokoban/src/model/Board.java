@@ -41,14 +41,15 @@ public final class Board extends JPanel {
     public Board(Level board, int pX, int pY) {
         if (board == null) return;
         this.lvlNum = board.getLevelId();
-        String[] lines = board.getLevelLayout().split("\n");
-        int maior = lines[0].length();
-        for (int l = 1; l < lines.length; l++) {
-            if (lines[l].length() > maior) {
-                maior = lines[l].length();
-            }
-        }
+//        String[] lines = board.getLevelLayout().split("\n");
+//        int maior = lines[0].length();
+//        for (int l = 1; l < lines.length; l++) {
+//            if (lines[l].length() > maior) {
+//                maior = lines[l].length();
+//            }
+//        }
         gameResetState = board.getLevelLayout();
+        setWorld(gameResetState);
         player = new Player(pX, pY, board.getLevelId());
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);

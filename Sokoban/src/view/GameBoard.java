@@ -21,6 +21,7 @@ import model.Level;
 public class GameBoard extends JFrame {
 
     private FileReader a = new FileReader();
+    private static boolean saved = false;
     private static final int DEFAULT_WIDTH = 480;
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
@@ -32,7 +33,12 @@ public class GameBoard extends JFrame {
     /**
      * Creates new form GamePanel
      */
+    
     public GameBoard(Level level) {
+       this(level, saved);
+    }
+
+    public GameBoard(Level level, boolean saved) {
         this.level = level;
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
@@ -42,16 +48,21 @@ public class GameBoard extends JFrame {
         boardLevel = new Board(level, 5, 4);
         initComponents();
         board.setWorld(boardLevel.gameResetState);
-        board.setGameStatesToNull(boardLevel.gameResetState);
-        buttonStateFloater();
 
+        if (saved){
+            board.setGameStatesToNull(level.getSavedLayoutLevel(level));
+        }else{
+            board.setGameStatesToNull(boardLevel.gameResetState);
+        }
+        buttonStateFloater();
         resetBtn.setFocusable(false);
         saveBtn.setFocusable(false);
         undoBtn.setFocusable(false);
         redoBtn.setFocusable(false);
 
     }
-
+    
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

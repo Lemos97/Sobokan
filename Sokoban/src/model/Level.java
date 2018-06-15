@@ -5,6 +5,9 @@
  */
 package model;
 
+import Controlers.FileReader;
+import java.util.ArrayList;
+
 /**
  *
  * @author Alexandre
@@ -13,7 +16,22 @@ public class Level {
     private String levelLayout;
     private int levelId;
    
-
+    public Level(){}
+    
+    public String getSavedLayoutLevel(Level level){
+        FileReader levelsFile = new FileReader();
+        
+        ArrayList<Level> levels = levelsFile.GetAllLevels();
+        
+        for(Level l : levels){
+            if (l.levelId == level.getLevelId()){
+                return l.levelLayout;
+            }    
+        }
+        
+        return level.getLevelLayout();
+    }
+    
     /**
      * @return the LevelId
      */
