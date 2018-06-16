@@ -18,6 +18,10 @@ public class Player extends BaseObject{
         private int vectorY = 10;
         private static boolean isSecond = false;
 
+        
+    // FORGOT TO IMPLEMENT THE USAGE OF THE isSecond property.. 
+    //but it should be fine to change to it instead of checking is 
+    //board.player2 != null checking if player.isSecond == true/false should be the same.
     public Player(int x, int y, int lvlId) {
         this(x, y, lvlId, isSecond);
     }
