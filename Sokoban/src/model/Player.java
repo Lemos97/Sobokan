@@ -15,11 +15,17 @@ import java.awt.Graphics;
 public class Player extends BaseObject{
         private Color pColor;
         private int vectorX = 10;
-        private int vectorY = 10;       
+        private int vectorY = 10;
+        private static boolean isSecond = false;
 
     public Player(int x, int y, int lvlId) {
+        this(x, y, lvlId, isSecond);
+    }
+    
+    public Player(int x, int y, int lvlId, boolean isScnd){
         super(x, y);
         this.setImage("PlayerSprites/"+lvlId+"_Down");
+        isSecond = isScnd;
     }
   
     /**
