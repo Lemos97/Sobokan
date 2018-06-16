@@ -15,6 +15,8 @@ import javax.swing.JPanel;
  */
 public final class Board extends JPanel {
     public Player player;
+    public Player player2;
+
     private Floor floor;
     private Wall wall;
     private Obstacle obstacle;
@@ -35,22 +37,33 @@ public final class Board extends JPanel {
     public int getLvlNum(){return lvlNum;}
     
     public Board(){
-        this(null,0,0);
+        this(null);
     }
     
-    public Board(Level board, int pX, int pY) {
+    public Board(Level board) {
         if (board == null) return;
         this.lvlNum = board.getLevelId();
-//        String[] lines = board.getLevelLayout().split("\n");
-//        int maior = lines[0].length();
-//        for (int l = 1; l < lines.length; l++) {
-//            if (lines[l].length() > maior) {
-//                maior = lines[l].length();
-//            }
-//        }
+        
+        
         gameResetState = board.getLevelLayout();
         setWorld(gameResetState);
-        player = new Player(pX, pY, board.getLevelId());
+        int players = 1;
+
+        String[] lines = board.getLevelLayout().split("\n");
+        for (int y = 0; y < world.length; y++) {
+            for (int x = 0; x < world[y].length; x++) {
+                if (world[y][x] == PLAYER) {
+                    if (players == 1)
+                        player = new Player(x, y, board.getLevelId());
+                    else if (players == 2){
+                        player2 = new Player(x, y, board.getLevelId());
+                    }
+                    players++;
+                }
+            }
+        }
+        
+
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
     }
@@ -81,10 +94,10 @@ public final class Board extends JPanel {
         return txt.toString();
     }
 
-    private int[] getPlayerPosition() {
+    private int[] getPlayerPosition(Player p) {
         for (int y = 0; y < world.length; y++) {
             for (int x = 0; x < world[y].length; x++) {
-                if (world[y][x] == PLAYER) {
+                if (world[y][x] == PLAYER && (p.getX() == x && p.getY() == y)) {
                     return new int[]{x, y};
                 }
             }
@@ -114,7 +127,7 @@ public final class Board extends JPanel {
 
     }
 
-    private void moveTo(int x, int y, int dx, int dy, int dir) {
+    private void moveTo(int x, int y, int dx, int dy, int dir, Player p) {
         if (isMoveAbleTo(x, y, dx, dy)) {
 
             //Move jogador para o alvo
@@ -161,6 +174,8 @@ public final class Board extends JPanel {
                         break;
                 }
             }
+            p.setX(x + dx);
+            p.setY(y + dy);
         }
         for (y = 0; y < world.length; y++) {
             for (x = 0; x < world[y].length; x++) {
@@ -171,24 +186,24 @@ public final class Board extends JPanel {
         }
     }
 
-    public void moveRight() {
-        int[] pos = getPlayerPosition();
-        moveTo(pos[0], pos[1], +1, 0, 1);
+    public void moveRight(Player p) {
+        int[] pos = getPlayerPosition(p);
+        moveTo(pos[0], pos[1], +1, 0, 1,p);
     }
 
-    public void moveLeft() {
-        int[] pos = getPlayerPosition();
-        moveTo(pos[0], pos[1], -1, 0, 3);
+    public void moveLeft(Player p) {
+        int[] pos = getPlayerPosition(p);
+        moveTo(pos[0], pos[1], -1, 0, 3,p);
     }
 
-    public void moveUp() {
-        int[] pos = getPlayerPosition();
-        moveTo(pos[0], pos[1], 0, -1, 4);
+    public void moveUp(Player p) {
+        int[] pos = getPlayerPosition(p);
+        moveTo(pos[0], pos[1], 0, -1, 4,p);
     }
 
-    public void moveDown() {
-        int[] pos = getPlayerPosition();
-        moveTo(pos[0], pos[1], 0, +1, 2);
+    public void moveDown(Player p) {
+        int[] pos = getPlayerPosition(p);
+        moveTo(pos[0], pos[1], 0, +1, 2,p);
     }
 
     public boolean isComplete() {
