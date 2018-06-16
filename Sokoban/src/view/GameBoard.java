@@ -173,67 +173,67 @@ public class GameBoard extends JFrame {
             }
         } else if (!board.isComplete()) {
             switch (evt.getKeyCode()) {
-                case 37:
-                    board.moveLeft(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left" + changer);
+                case 37:  
+                    board.moveLeft(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Left" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 39:
-                    board.moveRight(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right" + changer);
+                    board.moveRight(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Right" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 38:
-                    board.moveUp(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up" + changer);
+                    board.moveUp(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Up" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 40:
-                    board.moveDown(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down" + changer);
+                    board.moveDown(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Down" + changer);
                     board.setGameStates(board.toString());
                     break;
                 case 65:
-                    if (board.player2 != null) {
-                        board.moveLeft(board.player2);
-                        board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Left" + changer);
+                    if (board.players.size() > 1) {
+                        board.moveLeft(board.players.get(1));
+                        board.players.get(1).setImage("PlayerSprites/2_Left" + changer);
                         board.setGameStates(board.toString());
                     } else {
-                        board.moveLeft(board.player);
-                        board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left" + changer);
+                        board.moveLeft(board.players.get(0));
+                        board.players.get(0).setImage("PlayerSprites/1_Left" + changer);
                         board.setGameStates(board.toString());
                     }
                     break;
                 case 68:
-                    if (board.player2 != null) {
-                        board.moveRight(board.player2);
-                        board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Right" + changer);
+                    if (board.players.size() > 1) {
+                        board.moveRight(board.players.get(1));
+                        board.players.get(1).setImage("PlayerSprites/2_Right" + changer);
                         board.setGameStates(board.toString());
                     } else {
-                        board.moveRight(board.player);
-                        board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right" + changer);
+                        board.moveRight(board.players.get(0));
+                        board.players.get(0).setImage("PlayerSprites/1_Right" + changer);
                         board.setGameStates(board.toString());
                     }
                     break;
                 case 87:
-                    if (board.player2 != null) {
-                        board.moveUp(board.player2);
-                        board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Up" + changer);
+                    if (board.players.size() > 1) {
+                        board.moveUp(board.players.get(1));
+                        board.players.get(1).setImage("PlayerSprites/2_Up" + changer);
                         board.setGameStates(board.toString());
                     } else {
-                        board.moveUp(board.player);
-                        board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up" + changer);
+                        board.moveUp(board.players.get(0));
+                        board.players.get(0).setImage("PlayerSprites/1_Up" + changer);
                         board.setGameStates(board.toString());
                     }
                     break;
                 case 83:
-                    if (board.player2 != null) {
-                        board.moveDown(board.player2);
-                        board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Down" + changer);
+                    if (board.players.size() > 1) {
+                        board.moveDown(board.players.get(1));
+                        board.players.get(1).setImage("PlayerSprites/2_Down" + changer);
                         board.setGameStates(board.toString());
                     } else {
-                        board.moveDown(board.player);
-                        board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down" + changer);
+                        board.moveDown(board.players.get(0));
+                        board.players.get(0).setImage("PlayerSprites/1_Down" + changer);
                         board.setGameStates(board.toString());
                     }
                     break;
@@ -263,43 +263,43 @@ public class GameBoard extends JFrame {
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         switch (evt.getKeyCode()) {
             case 37:
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left");
+                board.players.get(0).setImage("PlayerSprites/1_Left");
                 break;
             case 39:
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right");
+                board.players.get(0).setImage("PlayerSprites/1_Right");
                 break;
             case 38:
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up");
+                board.players.get(0).setImage("PlayerSprites/1_Up");
                 break;
             case 40:
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down");
+                board.players.get(0).setImage("PlayerSprites/1_Down");
                 break;
             case 65:
-                if (board.player2 != null) {
-                    board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Left");
+                if (board.players.size() > 1) {
+                    board.players.get(1).setImage("PlayerSprites/2_Left");
                 } else {
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left");
+                    board.players.get(0).setImage("PlayerSprites/1_Left");
                 }
                 break;
             case 68:
-                if (board.player2 != null) {
-                    board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Right");
+                if (board.players.size() > 1) {
+                    board.players.get(1).setImage("PlayerSprites/2_Right");
                 } else {
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right");
+                    board.players.get(0).setImage("PlayerSprites/1_Right");
                 }
                 break;
             case 87:
-                if (board.player2 != null) {
-                    board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Up");
+                if (board.players.size() > 1) {
+                    board.players.get(1).setImage("PlayerSprites/2_Up");
                 } else {
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_up");
+                    board.players.get(0).setImage("PlayerSprites/1_up");
                 }
                 break;
             case 83:
-                if (board.player2 != null) {
-                    board.player2.setImage("PlayerSprites/" + level.getLevelId() + "_Down");
+                if (board.players.size() > 1) {
+                    board.players.get(1).setImage("PlayerSprites/2_Down");
                 } else {
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down");
+                    board.players.get(0).setImage("PlayerSprites/1_Down");
                 }
                 break;
         }
@@ -309,19 +309,18 @@ public class GameBoard extends JFrame {
     private void boardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardMouseReleased
         int h = this.getHeight() / 3 + ((this.getHeight() / 3) / 2);
         int w = this.getWidth() / 3 + ((this.getWidth() / 3) / 2);
-
         if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
             if (evt.getY() >= (this.getHeight() / 2)) {
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down");
+                board.players.get(0).setImage("PlayerSprites/1_Down");
 
             } else {
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up");
+                board.players.get(0).setImage("PlayerSprites/1_Up");
             }
         } else if (evt.getY() >= (h - (h / 3)) && evt.getY() <= (h + (h / 3))) {
             if (evt.getX() >= (this.getWidth() / 2)) {
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right");
+                board.players.get(0).setImage("PlayerSprites/1_Right");
             } else {
-                board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left");
+                board.players.get(0).setImage("PlayerSprites/1_Left");
             }
         }
         board.repaint();
@@ -341,23 +340,23 @@ public class GameBoard extends JFrame {
 
             if (evt.getX() >= (w - (w / 3)) && evt.getX() <= (w + (w / 3))) {
                 if (evt.getY() >= (this.getHeight() / 2)) {
-                    board.moveDown(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Down" + changer);
+                    board.moveDown(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Down" + changer);
                     board.setGameStates(board.toString());
 
                 } else {
-                    board.moveUp(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Up" + changer);
+                    board.moveUp(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Up" + changer);
                     board.setGameStates(board.toString());
                 }
             } else if (evt.getY() >= (h - (h / 3)) && evt.getY() <= (h + (h / 3))) {
                 if (evt.getX() >= (this.getWidth() / 2)) {
-                    board.moveRight(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Right" + changer);
+                    board.moveRight(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Right" + changer);
                     board.setGameStates(board.toString());
                 } else {
-                    board.moveLeft(board.player);
-                    board.player.setImage("PlayerSprites/" + level.getLevelId() + "_Left" + changer);
+                    board.moveLeft(board.players.get(0));
+                    board.players.get(0).setImage("PlayerSprites/1_Left" + changer);
                     board.setGameStates(board.toString());
                 }
             }

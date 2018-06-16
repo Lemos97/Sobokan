@@ -14,8 +14,7 @@ import javax.swing.JPanel;
  * @author bruno
  */
 public final class Board extends JPanel {
-    public Player player;
-    public Player player2;
+    public ArrayList<Player> players = new ArrayList<Player>();
 
     private Floor floor;
     private Wall wall;
@@ -24,6 +23,7 @@ public final class Board extends JPanel {
     public String gameResetState;
     public static final char EMPTY = ' ';
     public static final char PLAYER = '@';
+    public static final char PLAYER2 = '£';
     public static final char BLOCK = '$';
     public static final char TARGET = '.';
     public static final char WALL = '#';
@@ -40,29 +40,27 @@ public final class Board extends JPanel {
         this(null);
     }
     
-    public Board(Level board) {
-        if (board == null) return;
-        this.lvlNum = board.getLevelId();
-        
-        
-        gameResetState = board.getLevelLayout();
+    public Board(Level boardLevel) {
+        if (boardLevel == null) return;
+        this.lvlNum = boardLevel.getLevelId();
+       
+        gameResetState = boardLevel.getLevelLayout();
         setWorld(gameResetState);
-        int players = 1;
 
-        String[] lines = board.getLevelLayout().split("\n");
+        String[] lines = boardLevel.getLevelLayout().split("\n");
         for (int y = 0; y < world.length; y++) {
             for (int x = 0; x < world[y].length; x++) {
-                if (world[y][x] == PLAYER) {
-                    if (players == 1)
-                        player = new Player(x, y, board.getLevelId());
-                    else if (players == 2){
-                        player2 = new Player(x, y, board.getLevelId());
-                    }
-                    players++;
-                }
+                if (world[y][x] == PLAYER) 
+                    players.add(new Player(x, y));                              
+                if (world[y][x] == PLAYER2 )
+                    players.add(new Player(x, y, true));
             }
         }
-        
+        if (players.get(0).isSecond()){
+            Player tempPlayer =  players.get(0);
+            players.remove(tempPlayer);
+            players.add(tempPlayer);
+        }
 
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
@@ -96,8 +94,11 @@ public final class Board extends JPanel {
 
     private int[] getPlayerPosition(Player p) {
         for (int y = 0; y < world.length; y++) {
-            for (int x = 0; x < world[y].length; x++) {
-                if (world[y][x] == PLAYER && (p.getX() == x && p.getY() == y)) {
+            for (int x = 0; x < world[y].length; x++) {         
+                if (world[y][x] == PLAYER & !p.isSecond()) {
+                    return new int[]{x, y};
+                }
+                if (world[y][x] == PLAYER2 & p.isSecond()) {
                     return new int[]{x, y};
                 }
             }
@@ -122,37 +123,50 @@ public final class Board extends JPanel {
     }
 
     private boolean isMoveAbleTo(int x, int y, int dx, int dy) {
-        return isPositionValid(x + dx, y + dy) && (world[y + dy][x + dx] == EMPTY
-                || world[y + dy][x + dx] == BLOCK || world[y + dy][x + dx] == TARGET);
-
+        return isPositionValid(x + dx, y + dy) && 
+                (world[y + dy][x + dx] == EMPTY ||
+                 world[y + dy][x + dx] == BLOCK || 
+                 world[y + dy][x + dx] == TARGET 
+                );
     }
 
     private void moveTo(int x, int y, int dx, int dy, int dir, Player p) {
-        if (isMoveAbleTo(x, y, dx, dy)) {
-
+        if (isMoveAbleTo(x, y, dx, dy)) {   
             //Move jogador para o alvo
             if (world[y + dy][x + dx] == TARGET) {
                 world[y][x] = EMPTY;
-                world[y + dy][x + dx] = PLAYER;
+                if (p.isSecond())
+                    world[y + dy][x + dx] = PLAYER2;
+                else
+                    world[y + dy][x + dx] = PLAYER;
             }
             //Move jogador para posição vazia
             if (world[y + dy][x + dx] == EMPTY) {
                 world[y][x] = EMPTY;
-                world[y + dy][x + dx] = PLAYER;
+                if (p.isSecond())
+                    world[y + dy][x + dx] = PLAYER2;
+                else
+                    world[y + dy][x + dx] = PLAYER;
             } else if (world[y + dy][x + dx] == BLOCK) {//Move jogador para posição de bloco
                 switch (dir) {
                     case 1://Move jogador para a direita
                         if (world[y + dy][x + dx + 1] != WALL) {
                             world[y][x] = EMPTY;
+                        if (p.isSecond())
+                            world[y + dy][x + dx] = PLAYER2;
+                        else
                             world[y + dy][x + dx] = PLAYER;
                             world[y + dy][x + dx + 1] = BLOCK;
-
                         }
                         break;
                     case 2://Move jogador para baixo
                         if (world[y + dy + 1][x + dx] != WALL) {
                             world[y][x] = EMPTY;
-                            world[y + dy][x + dx] = PLAYER;
+                            world[y][x] = EMPTY;
+                            if (p.isSecond())
+                                world[y + dy][x + dx] = PLAYER2;
+                            else
+                                world[y + dy][x + dx] = PLAYER;
                             world[y + dy + 1][x + dx] = BLOCK;
 
                         }
@@ -160,15 +174,21 @@ public final class Board extends JPanel {
                     case 3://Move jogador para esquerda
                         if (world[y + dy][x + dx - 1] != WALL) {
                             world[y][x] = EMPTY;
-                            world[y + dy][x + dx] = PLAYER;
+                            world[y][x] = EMPTY;
+                            if (p.isSecond())
+                                world[y + dy][x + dx] = PLAYER2;
+                            else
+                                world[y + dy][x + dx] = PLAYER;
                             world[y + dy][x + dx - 1] = BLOCK;
-
                         }
                         break;
                     case 4://Move jogador para cima
                         if (world[y + dy - 1][x + dx] != WALL) {
                             world[y][x] = EMPTY;
-                            world[y + dy][x + dx] = PLAYER;
+                            if (p.isSecond())
+                                world[y + dy][x + dx] = PLAYER2;
+                            else
+                                world[y + dy][x + dx] = PLAYER;
                             world[y + dy - 1][x + dx] = BLOCK;
                         }
                         break;
@@ -188,12 +208,12 @@ public final class Board extends JPanel {
 
     public void moveRight(Player p) {
         int[] pos = getPlayerPosition(p);
-        moveTo(pos[0], pos[1], +1, 0, 1,p);
+        moveTo(pos[0], pos[1], +1, 0, 1, p);
     }
 
     public void moveLeft(Player p) {
         int[] pos = getPlayerPosition(p);
-        moveTo(pos[0], pos[1], -1, 0, 3,p);
+        moveTo(pos[0], pos[1], -1, 0, 3, p);
     }
 
     public void moveUp(Player p) {
@@ -219,8 +239,7 @@ public final class Board extends JPanel {
    
     public void paint(Graphics g) {
         float dc = ((float) this.getWidth()) / colunas;
-        float dl = ((float) this.getHeight()) / linhas;
-        
+        float dl = ((float) this.getHeight()) / linhas;     
         for (int l = 0; l < linhas; l++) {
             for (int c = 0; c < colunas; c++) {
                 if (world[l][c] == TARGET) {
@@ -240,7 +259,11 @@ public final class Board extends JPanel {
                 }
                 if (world[l][c] == PLAYER) {
                     g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
-                    g.drawImage(player.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(players.get(0).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);                     
+                }
+                if (world[l][c] == PLAYER2){
+                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(players.get(1).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
             }
         }
@@ -276,6 +299,7 @@ public final class Board extends JPanel {
     public boolean getUndoRedoFalse(){
         return this.undoRedoEnable;
     }
+    
     public void setUndoRedoFalse(){
         this.undoRedoEnable = false;
     }
