@@ -73,11 +73,6 @@ public class SplashScreen extends JFrame {
         newBtn.setMaximumSize(new java.awt.Dimension(50, 19));
         newBtn.setMinimumSize(new java.awt.Dimension(50, 19));
         newBtn.setPreferredSize(new java.awt.Dimension(50, 19));
-        newBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                newBtnMouseClicked(evt);
-            }
-        });
         newBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newBtnActionPerformed(evt);
@@ -91,11 +86,6 @@ public class SplashScreen extends JFrame {
         loadBtn.setMaximumSize(new java.awt.Dimension(57, 30));
         loadBtn.setMinimumSize(new java.awt.Dimension(57, 30));
         loadBtn.setPreferredSize(new java.awt.Dimension(50, 19));
-        loadBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loadBtnMouseClicked(evt);
-            }
-        });
         loadBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadBtnActionPerformed(evt);
@@ -106,11 +96,6 @@ public class SplashScreen extends JFrame {
         exitBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         exitBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         exitBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                exitBtnMouseClicked(evt);
-            }
-        });
         exitBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitBtnActionPerformed(evt);
@@ -121,11 +106,6 @@ public class SplashScreen extends JFrame {
         aboutBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         aboutBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         aboutBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        aboutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                aboutBtnMouseClicked(evt);
-            }
-        });
         aboutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutBtnActionPerformed(evt);
@@ -181,20 +161,6 @@ public class SplashScreen extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newBtnMouseClicked
-        
-    }//GEN-LAST:event_newBtnMouseClicked
-
-    private void loadBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadBtnMouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_loadBtnMouseClicked
-
-    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_exitBtnMouseClicked
-
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
        List<Object> options = new ArrayList<>();
 
@@ -214,10 +180,6 @@ public class SplashScreen extends JFrame {
         }
 
     }//GEN-LAST:event_newBtnActionPerformed
-
-    private void aboutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutBtnMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aboutBtnMouseClicked
 
     private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBtnActionPerformed
                 Runnable runner = () -> {
