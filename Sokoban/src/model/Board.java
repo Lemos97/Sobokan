@@ -156,7 +156,7 @@ public final class Board extends JPanel {
             } else if (world[y + dy][x + dx] == BLOCK) {//Move jogador para posição de bloco
                 switch (dir) {
                     case 1://Move jogador para a direita
-                        if (world[y + dy][x + dx + 1] == EMPTY || world[y + dy][x + dx + 1] == TARGET) {
+                        if (world[y + dy][x + dx + 1] != WALL && world[y + dy][x + dx + 1] != PLAYER2 && world[y + dy][x + dx + 1] != PLAYER && world[y + dy][x + dx + 1] != BLOCK) {
                             world[y][x] = EMPTY;
                             if (p.isSecond()) {
                                 world[y + dy][x + dx] = PLAYER2;
@@ -167,7 +167,7 @@ public final class Board extends JPanel {
                         }
                         break;
                     case 2://Move jogador para baixo
-                        if (world[y + dy + 1][x + dx] == EMPTY && world[y + dy + 1][x + dx] == TARGET) {
+                        if (world[y + dy + 1][x + dx] != WALL && world[y + dy + 1][x + dx] != PLAYER2 && world[y + dy + 1][x + dx] != PLAYER && world[y + dy + 1][x + dx] != BLOCK) {
                             world[y][x] = EMPTY;
                             if (p.isSecond()) {
                                 world[y + dy][x + dx] = PLAYER2;
@@ -178,7 +178,7 @@ public final class Board extends JPanel {
                         }
                         break;
                     case 3://Move jogador para esquerda
-                        if (world[y + dy][x + dx - 1] == EMPTY && world[y + dy][x + dx - 1] == TARGET) {
+                        if (world[y + dy][x + dx - 1] != WALL && world[y + dy][x + dx - 1] != PLAYER2 && world[y + dy][x + dx - 1] != PLAYER && world[y + dy][x + dx - 1] != BLOCK) {
                             world[y][x] = EMPTY;
 
                             if (p.isSecond()) {
@@ -190,7 +190,7 @@ public final class Board extends JPanel {
                         }
                         break;
                     case 4://Move jogador para cima
-                        if (world[y + dy - 1][x + dx] == EMPTY && world[y + dy - 1][x + dx] == TARGET) {
+                        if (world[y + dy - 1][x + dx] != WALL && world[y + dy - 1][x + dx] != PLAYER2 && world[y + dy - 1][x + dx] != PLAYER && world[y + dy - 1][x + dx] != BLOCK) {
                             world[y][x] = EMPTY;
                             if (p.isSecond()) {
                                 world[y + dy][x + dx] = PLAYER2;
@@ -201,9 +201,9 @@ public final class Board extends JPanel {
                         }
                         break;
                 }
-                p.setX(x + dx);
-                p.setY(y + dy);
             }
+            p.setX(x + dx);
+            p.setY(y + dy);
         }
         for (y = 0; y < world.length; y++) {
             for (x = 0; x < world[y].length; x++) {
