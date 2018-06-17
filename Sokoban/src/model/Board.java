@@ -39,6 +39,10 @@ public final class Board extends JPanel {
         this(null);
     }
 
+    /**
+     * Will create the board based on a level that it receives
+     * @param boardLevel 
+     */
     public Board(Level boardLevel) {
         if (boardLevel == null) {
             return;
@@ -69,6 +73,10 @@ public final class Board extends JPanel {
         wall = new Wall(lvlNum);
     }
 
+    /**
+     * Will populate the World and Targets arrays for later use
+     * @param board 
+     */
     public void setWorld(String board) {
         String[] lines = board.split("\n");
         int maior = lines[0].length();
@@ -87,6 +95,10 @@ public final class Board extends JPanel {
         getTargetPosition();
     }
 
+    /**
+     * Basic toString, return the board in a custom string
+     * @return 
+     */
     @Override
     public String toString() {
         StringBuilder txt = new StringBuilder();
@@ -110,7 +122,7 @@ public final class Board extends JPanel {
         return null;
     }
 
-    public void getTargetPosition() {
+    private void getTargetPosition() {
         for (int y = 0; y < world.length; y++) {
             for (int x = 0; x < world[y].length; x++) {
                 if (world[y][x] == TARGET) {
@@ -213,26 +225,46 @@ public final class Board extends JPanel {
         }
     }
 
+    /**
+     * Moves the player given to a new position to the right
+     * @param p 
+     */
     public void moveRight(Player p) {
         int[] pos = getPlayerPosition(p);
         moveTo(pos[0], pos[1], +1, 0, 1, p);
     }
 
+    /**
+     * Moves the player given to a new position to the left
+     * @param p 
+     */
     public void moveLeft(Player p) {
         int[] pos = getPlayerPosition(p);
         moveTo(pos[0], pos[1], -1, 0, 3, p);
     }
 
+    /**
+     * Moves the player given to a new position to an upwards position
+     * @param p 
+     */
     public void moveUp(Player p) {
         int[] pos = getPlayerPosition(p);
         moveTo(pos[0], pos[1], 0, -1, 4, p);
     }
 
+    /**
+     * Moves the player given to a new position to a bellow position
+     * @param p 
+     */
     public void moveDown(Player p) {
         int[] pos = getPlayerPosition(p);
         moveTo(pos[0], pos[1], 0, +1, 2, p);
     }
 
+    /**
+     * Returns true if all the targets are covered
+     * @return boolean value
+     */
     public boolean isComplete() {
         for (int l = 0; l < world.length; l++) {
             for (int c = 0; c < world[l].length; c++) {
@@ -246,6 +278,12 @@ public final class Board extends JPanel {
         return true;
     }
 
+    /**
+     * this method is rewritten so it will draw the board accordingly
+     * it reads the world array and will draw to the frame each image depending
+     * on what char is given
+     * @param g 
+     */
     public void paint(Graphics g) {
         float dc = ((float) this.getWidth()) / colunas;
         float dl = ((float) this.getHeight()) / linhas;
@@ -254,30 +292,50 @@ public final class Board extends JPanel {
                 if (world[l][c] == TARGET) {
                     obstacle = new Obstacle(l, c, this.lvlNum);
                     obstacle.setImage("Fate" + this.lvlNum);
-                    g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(obstacle.getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc), 
+                                Math.round(dl), null);
                 }
                 if (world[l][c] == BLOCK) {
                     obstacle = new Obstacle(l, c, this.lvlNum);
-                    g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(obstacle.getImage(), Math.round(c * dc),
+                                Math.round(l * dl), Math.round(dc),
+                                Math.round(dl), null);
                 }
                 if (world[l][c] == WALL) {
-                    g.drawImage(wall.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(wall.getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc),
+                                Math.round(dl), null);
                 }
                 if (world[l][c] == EMPTY) {
-                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc), 
+                                Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER) {
-                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
-                    g.drawImage(players.get(0).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc), 
+                                Math.round(dl), null);
+                    g.drawImage(players.get(0).getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc), 
+                                Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER2) {
-                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
-                    g.drawImage(players.get(1).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc), 
+                                Math.round(dl), null);
+                    g.drawImage(players.get(1).getImage(), Math.round(c * dc), 
+                                Math.round(l * dl), Math.round(dc), 
+                                Math.round(dl), null);
                 }
             }
         }
     }
 
+    /**
+     * Saved the state of the game for redo and undo functions
+     * @param state 
+     */
     public void setGameStates(String state) {
         gameStates.add(state);
         if (gameStates.size() <= 4) {
@@ -287,10 +345,18 @@ public final class Board extends JPanel {
         }
     }
 
+    /**
+     * 
+     * @return the gameStateIter(ator) 
+     */
     public int getGameStateIter() {
         return this.gameStateIter;
     }
 
+    /**
+     * Iterates throw the gameStates Collection
+     * @return the previous game state saved
+     */
     public String getGameStatesUndo() {
         this.undoRedoEnable = true;
         if (this.gameStateIter > 0) {
@@ -299,6 +365,10 @@ public final class Board extends JPanel {
         return gameStates.get(this.gameStateIter);
     }
 
+     /**
+     * Iterates throw the gameStates Collection
+     * @return the next game state saved
+     */
     public String getGameStatesRedo() {
         this.undoRedoEnable = true;
         if (this.gameStateIter < 3) {
@@ -307,20 +377,36 @@ public final class Board extends JPanel {
         return gameStates.get(this.gameStateIter);
     }
 
+    /**
+     * Determines whether the Undo and Redo functions will save the game states
+     * @return a boolean value 
+     */
     public boolean getUndoRedoFalse() {
         return this.undoRedoEnable;
     }
 
+    /**
+     * sets the UndoRedoEnable boolean to false
+     */
     public void setUndoRedoFalse() {
         this.undoRedoEnable = false;
     }
 
+    /**
+     * When the reset button is pressed all the undo/redo states must be lost
+     * resets the gameStateIter(ator) so it can count from start
+     * @param board 
+     */
     public void setGameStatesToNull(String board) {
         gameStates.clear();
         gameStates.add(board);
         this.gameStateIter = 0;
     }
 
+    /**
+     * return the size of the gameStates collection
+     * @return 
+     */
     public int getGameStatesSize() {
         return gameStates.size();
     }

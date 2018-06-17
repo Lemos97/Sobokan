@@ -5,33 +5,13 @@
  */
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 /**
  *
  * @author bruno
  */
-public class Floor extends BaseObject {
-        private Color oColor;
-        
-        
+public class Floor extends BaseObject {  
     public Floor(int lvlNum) {
         super(1, 1);
         this.setImage("FloorLvl"+lvlNum);
     }
-
-    /**
-     * @return the oColor
-     */
-    public Color getoColor() {
-        return oColor;
-    }
-
-    /**
-     * @param oColor the oColor to set
-     */
-    public void setoColor(Color oColor) {
-        this.oColor = oColor;
-    }    
 }
