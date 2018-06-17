@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,20 +24,24 @@ import java.util.logging.Logger;
  */
 public class FileReader {
 
-    
     /**
      * Reads a json file that contains all the levels and parses' it's content into an ArrayList of type Level
-     * @return ArrayList<Level> return the ArrayList<Level> generated  
+     * @param type
+     * @return aList return the ArrayList<Level> generated  
     */
-    public ArrayList<Level> GetAllLevels() {
+    public ArrayList<Level> GetAllLevels(String type) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            Path filePath = Paths.get(getClass().getResource("/Resources/levels.json").toURI());
+            Path filePath;
+            if (type.equals("single"))
+                filePath = Paths.get(getClass().getResource("/Resources/Levels.json").toURI());
+            else
+                filePath = Paths.get(getClass().getResource("/Resources/LevelsMulti.json").toURI());
             File from = new File(filePath.toString());
             //JSON from String to List<Level>
             List<Level> myLevels = mapper.readValue(from, mapper.getTypeFactory().constructCollectionType(List.class, Level.class));
-            ArrayList<Level> aa = (ArrayList) myLevels;
-            return aa;
+            ArrayList<Level> aList = (ArrayList) myLevels;
+            return aList;
         } catch (IOException | URISyntaxException ex) {
             return null;
         }
@@ -44,20 +49,24 @@ public class FileReader {
 
     /**
      * Reads a json file that contains the saved level and parses' it's content into an object if type Level
+     * @param path
      * @return Level: returns the Level generated  
     */
-    public Level GetSavedLevel(String path) {
+    public Level GetSavedLevel() {
+        ObjectMapper mapper = new ObjectMapper();
+        Path filePath;
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            Path filePath = Paths.get(path);
-            File from = new File(filePath.toString());
-            //JSON from String to List<Level>
-            Level mySaveLvl = mapper.readValue(from, mapper.getTypeFactory().constructType(Level.class));
-            return mySaveLvl;
-        } catch (IOException ex) {
-            
+            filePath = Paths.get(getClass().getResource("/Resources/").toURI());
+            File from = new File(filePath + "/GameSave.json");
+            if (!from.exists()) {
+                return null;
+            } else {
+                Level mySaveLvl = mapper.readValue(from, mapper.getTypeFactory().constructType(Level.class));
+                return mySaveLvl;
+            }
+
+        } catch (Exception ex) {
             String a = ex.toString();
-            
         }
         return null;
     }

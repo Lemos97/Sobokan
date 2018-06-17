@@ -28,18 +28,22 @@ public class GameBoard extends JFrame {
 
     Level level;
     private Board boardLevel;
+    private final ArrayList<Level> allLevels;
 
     /**
      * Creates new form GamePanel
+     * @param level
+     * @param allLevels
      */
-    public GameBoard(Level level) {
+    public GameBoard(Level level, ArrayList<Level> allLevels) {
+        this.allLevels = allLevels;
         this.level = level;
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMinimumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        boardLevel = new Board(level);
+        boardLevel = new Board(level, allLevels);
         initComponents();
         board.setWorld(boardLevel.gameResetState);
         board.setGameStatesToNull(boardLevel.gameResetState);
@@ -166,10 +170,21 @@ public class GameBoard extends JFrame {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if (board.isComplete() && evt.getKeyCode() != 27) {
             Object[] options = {"Sim!", "Não."};
-            int choice = JOptionPane.showOptionDialog(this, "Tem a certeza que deseja voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-            if (choice == 0) {
-                this.dispose();
+            if(level.getLevelId()+1 <= allLevels.size()){
+                int choice = JOptionPane.showOptionDialog(this, "Pretende seguir para o proximo nível?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+                if (choice == 0) {
+                    boardLevel = new Board(allLevels.get(level.getLevelId()), allLevels);
+                    level.setLevelId(level.getLevelId() + 1);
+                    board.setWorld(boardLevel.gameResetState);
+                    board.setGameStatesToNull(boardLevel.gameResetState);
+                    buttonStateFloater();
+                    this.repaint();
+                }
+            }else{          
+                int choice = JOptionPane.showOptionDialog(this, "Parabéns, chegou ao fim do jogo, pretende voltar ao menu inicial?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+                if (choice == 0) {
+                    this.dispose();
+                }   
             }
         } else if (!board.isComplete()) {
             switch (evt.getKeyCode()) {
