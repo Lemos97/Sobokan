@@ -5,33 +5,13 @@
  */
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 /**
  *
  * @author bruno
  */
-public class Obstacle extends BaseObject {
-        private Color oColor;
-        
-        
+public class Obstacle extends BaseObject {       
     public Obstacle(int oX, int oY, int lvlNum) {
         super(oX, oY);
         this.setImage("Obstacle"+lvlNum);
-    }
-
-    /**
-     * @return the oColor
-     */
-    public Color getoColor() {
-        return oColor;
-    }
-
-    /**
-     * @param oColor the oColor to set
-     */
-    public void setoColor(Color oColor) {
-        this.oColor = oColor;
     }
 }
