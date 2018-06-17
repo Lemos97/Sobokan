@@ -96,6 +96,11 @@ public class SplashScreen extends JFrame {
                 loadBtnMouseClicked(evt);
             }
         });
+        loadBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadBtnActionPerformed(evt);
+            }
+        });
 
         exitBtn.setText("Exit Game");
         exitBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -104,6 +109,11 @@ public class SplashScreen extends JFrame {
         exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 exitBtnMouseClicked(evt);
+            }
+        });
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
             }
         });
 
@@ -172,7 +182,21 @@ public class SplashScreen extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newBtnMouseClicked
-        List<Object> options = new ArrayList<>();
+        
+    }//GEN-LAST:event_newBtnMouseClicked
+
+    private void loadBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadBtnMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_loadBtnMouseClicked
+
+    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_exitBtnMouseClicked
+
+    private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
+       List<Object> options = new ArrayList<>();
 
         for (Level l : Levels) {
             options.add(l.getLevelId());
@@ -189,10 +213,25 @@ public class SplashScreen extends JFrame {
             EventQueue.invokeLater(runner);
         }
 
-    }//GEN-LAST:event_newBtnMouseClicked
+    }//GEN-LAST:event_newBtnActionPerformed
 
-    private void loadBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadBtnMouseClicked
+    private void aboutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutBtnMouseClicked
         // TODO add your handling code here:
+    }//GEN-LAST:event_aboutBtnMouseClicked
+
+    private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBtnActionPerformed
+                Runnable runner = () -> {
+                    /* Create and display the form */
+                    new AboutScreen().setVisible(true);
+                };
+                EventQueue.invokeLater(runner);
+    }//GEN-LAST:event_aboutBtnActionPerformed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void loadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadBtnActionPerformed
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(this);
 
@@ -211,28 +250,7 @@ public class SplashScreen extends JFrame {
                 Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_loadBtnMouseClicked
-
-    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_exitBtnMouseClicked
-
-    private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newBtnActionPerformed
-
-    private void aboutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutBtnMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aboutBtnMouseClicked
-
-    private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBtnActionPerformed
-                Runnable runner = () -> {
-                    /* Create and display the form */
-                    new AboutScreen().setVisible(true);
-                };
-                EventQueue.invokeLater(runner);
-    }//GEN-LAST:event_aboutBtnActionPerformed
+    }//GEN-LAST:event_loadBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutBtn;
