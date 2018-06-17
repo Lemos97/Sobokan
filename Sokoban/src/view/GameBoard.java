@@ -48,12 +48,10 @@ public class GameBoard extends JFrame {
         board.setWorld(boardLevel.gameResetState);
         board.setGameStatesToNull(boardLevel.gameResetState);
         buttonStateFloater();
-
         resetBtn.setFocusable(false);
         saveBtn.setFocusable(false);
         undoBtn.setFocusable(false);
         redoBtn.setFocusable(false);
-
     }
 
     /**
@@ -172,12 +170,15 @@ public class GameBoard extends JFrame {
             Object[] options = {"Sim!", "Não."};
             if(level.getLevelId()+1 <= allLevels.size()){
                 int choice = JOptionPane.showOptionDialog(this, "Pretende seguir para o proximo nível?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-                if (choice == 0) {
+                if (choice == 0) {  
                     boardLevel = new Board(allLevels.get(level.getLevelId()), allLevels);
-                    level.setLevelId(level.getLevelId() + 1);
+                    this.level = allLevels.get(level.getLevelId());
                     board.setWorld(boardLevel.gameResetState);
                     board.setGameStatesToNull(boardLevel.gameResetState);
                     buttonStateFloater();
+                    this.repaint();
+                    this.revalidate();
+                    this.repaint();
                     this.repaint();
                 }
             }else{          

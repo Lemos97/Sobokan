@@ -15,11 +15,11 @@ import javax.swing.JPanel;
  */
 public final class Board extends JPanel {
 
-    public ArrayList<Player> players = new ArrayList<Player>();
+    public ArrayList<Player> players = new ArrayList<>();
     private Floor floor;
     private Wall wall;
     private Obstacle obstacle;
-    private ArrayList<String> gameStates = new ArrayList<String>();
+    private ArrayList<String> gameStates = new ArrayList<>();
     public String gameResetState;
     public static final char EMPTY = ' ';
     public static final char PLAYER = '@';
@@ -29,13 +29,13 @@ public final class Board extends JPanel {
     public static final char WALL = '#';
     private char[][] targets;
     private char[][] world;
-    private int linhas, colunas, gameStateIter = 0, lvlNum;
+    private int linhas, colunas, gameStateIter = 0;
+    private static int lvlNum;
     private boolean undoRedoEnable = false;
     private ArrayList<Level> allLevels;
     public int getLvlNum() {
         return lvlNum;
     }
-
     public Board() {
         this(null, null);
     }
@@ -44,8 +44,9 @@ public final class Board extends JPanel {
         if (boardLevel == null) {
             return;
         }
-        this.allLevels = allLevels;
         this.lvlNum = boardLevel.getLevelId();
+        this.allLevels = allLevels;
+        
         gameResetState = boardLevel.getLevelLayout();
         setWorld(gameResetState);
 
@@ -65,7 +66,6 @@ public final class Board extends JPanel {
             players.remove(tempPlayer);
             players.add(tempPlayer);
         }
-
         floor = new Floor(lvlNum);
         wall = new Wall(lvlNum);
     }
@@ -88,10 +88,11 @@ public final class Board extends JPanel {
         getTargetPosition();
     }
 
+    @Override
     public String toString() {
         StringBuilder txt = new StringBuilder();
         for (char[] line : world) {
-            txt.append(new String(line) + "\n");
+            txt.append(new String(line)).append("\n");
         }
         return txt.toString();
     }
@@ -247,6 +248,8 @@ public final class Board extends JPanel {
     }
 
     public void paint(Graphics g) {
+        Wall limite = new Wall(this.lvlNum);
+        Floor chao = new Floor(this.lvlNum);
         float dc = ((float) this.getWidth()) / colunas;
         float dl = ((float) this.getHeight()) / linhas;
         for (int l = 0; l < linhas; l++) {
@@ -261,17 +264,17 @@ public final class Board extends JPanel {
                     g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == WALL) {
-                    g.drawImage(wall.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(limite.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == EMPTY) {
-                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(chao.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER) {
-                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(chao.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                     g.drawImage(players.get(0).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER2) {
-                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(chao.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                     g.drawImage(players.get(1).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
             }
