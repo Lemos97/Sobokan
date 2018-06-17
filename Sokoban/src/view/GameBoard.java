@@ -43,7 +43,7 @@ public class GameBoard extends JFrame {
         this.setMaximumSize(new Dimension(DEFAULT_WIDTH * SCALE, DEFAULT_HEIGHT * SCALE));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        boardLevel = new Board(level, allLevels);
+        boardLevel = new Board(level);
         initComponents();
         board.setWorld(boardLevel.gameResetState);
         board.setGameStatesToNull(boardLevel.gameResetState);
@@ -171,7 +171,7 @@ public class GameBoard extends JFrame {
             if(level.getLevelId()+1 <= allLevels.size()){
                 int choice = JOptionPane.showOptionDialog(this, "Pretende seguir para o proximo nível?", "Ganhou!!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                 if (choice == 0) {  
-                    boardLevel = new Board(allLevels.get(level.getLevelId()), allLevels);
+                    boardLevel = new Board(allLevels.get(level.getLevelId()));
                     this.level = allLevels.get(level.getLevelId());
                     board.setWorld(boardLevel.gameResetState);
                     board.setGameStatesToNull(boardLevel.gameResetState);

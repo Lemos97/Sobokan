@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 public final class Board extends JPanel {
 
     public ArrayList<Player> players = new ArrayList<>();
-    private Floor floor;
-    private Wall wall;
+    private static Floor floor;
+    private static Wall wall;
     private Obstacle obstacle;
     private ArrayList<String> gameStates = new ArrayList<>();
     public String gameResetState;
@@ -32,20 +32,19 @@ public final class Board extends JPanel {
     private int linhas, colunas, gameStateIter = 0;
     private static int lvlNum;
     private boolean undoRedoEnable = false;
-    private ArrayList<Level> allLevels;
     public int getLvlNum() {
         return lvlNum;
     }
     public Board() {
-        this(null, null);
+        this(null);
     }
 
-    public Board(Level boardLevel, ArrayList<Level> allLevels) {
+    public Board(Level boardLevel) {
         if (boardLevel == null) {
             return;
         }
         this.lvlNum = boardLevel.getLevelId();
-        this.allLevels = allLevels;
+    
         
         gameResetState = boardLevel.getLevelLayout();
         setWorld(gameResetState);
@@ -248,8 +247,6 @@ public final class Board extends JPanel {
     }
 
     public void paint(Graphics g) {
-        Wall limite = new Wall(this.lvlNum);
-        Floor chao = new Floor(this.lvlNum);
         float dc = ((float) this.getWidth()) / colunas;
         float dl = ((float) this.getHeight()) / linhas;
         for (int l = 0; l < linhas; l++) {
@@ -264,17 +261,17 @@ public final class Board extends JPanel {
                     g.drawImage(obstacle.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == WALL) {
-                    g.drawImage(limite.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(wall.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == EMPTY) {
-                    g.drawImage(chao.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER) {
-                    g.drawImage(chao.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                     g.drawImage(players.get(0).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
                 if (world[l][c] == PLAYER2) {
-                    g.drawImage(chao.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
+                    g.drawImage(floor.getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                     g.drawImage(players.get(1).getImage(), Math.round(c * dc), Math.round(l * dl), Math.round(dc), Math.round(dl), null);
                 }
             }
