@@ -25,7 +25,8 @@ import model.Level;
 public class SplashScreen extends JFrame {
 
     static FileReader a = new FileReader();
-    static ArrayList<Level> Levels = new ArrayList();
+    static ArrayList<Level> LevelsSinglePlayer = new ArrayList();
+    static ArrayList<Level> LevelsMultiPlayer = new ArrayList();
     private static final int DEFAULT_WIDTH = 480;
     private static final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 12) * 9;
     private static final int SCALE = 2;
@@ -41,7 +42,8 @@ public class SplashScreen extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         initComponents();
-        Levels = a.GetAllLevels();  
+        LevelsSinglePlayer = a.GetAllLevels("single");  
+        LevelsMultiPlayer = a.GetAllLevels("multi");  
     }
 
     /**
@@ -59,6 +61,7 @@ public class SplashScreen extends JFrame {
         loadBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
         aboutBtn = new javax.swing.JButton();
+        newBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,7 +69,7 @@ public class SplashScreen extends JFrame {
         buttonGroup.setMinimumSize(new java.awt.Dimension(320, 240));
         buttonGroup.setPreferredSize(new java.awt.Dimension(320, 240));
 
-        newBtn.setText("New Game");
+        newBtn.setText("New Game Singleplayer");
         newBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         newBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         newBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -132,6 +135,24 @@ public class SplashScreen extends JFrame {
             }
         });
 
+        newBtn1.setText("New Game Multiplayer");
+        newBtn1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        newBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        newBtn1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        newBtn1.setMaximumSize(new java.awt.Dimension(50, 19));
+        newBtn1.setMinimumSize(new java.awt.Dimension(50, 19));
+        newBtn1.setPreferredSize(new java.awt.Dimension(50, 19));
+        newBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newBtn1MouseClicked(evt);
+            }
+        });
+        newBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonGroupLayout = new javax.swing.GroupLayout(buttonGroup);
         buttonGroup.setLayout(buttonGroupLayout);
         buttonGroupLayout.setHorizontalGroup(
@@ -142,7 +163,8 @@ public class SplashScreen extends JFrame {
                     .addComponent(newBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                     .addComponent(loadBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(aboutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(aboutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         buttonGroupLayout.setVerticalGroup(
@@ -151,12 +173,14 @@ public class SplashScreen extends JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(newBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
+                .addComponent(newBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addComponent(loadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(aboutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainLayout = new javax.swing.GroupLayout(main);
@@ -171,9 +195,9 @@ public class SplashScreen extends JFrame {
         mainLayout.setVerticalGroup(
             mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainLayout.createSequentialGroup()
-                .addGap(205, 205, 205)
-                .addComponent(buttonGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addGap(180, 180, 180)
+                .addComponent(buttonGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         getContentPane().add(main, java.awt.BorderLayout.CENTER);
@@ -198,13 +222,13 @@ public class SplashScreen extends JFrame {
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
        List<Object> options = new ArrayList<>();
 
-        for (Level l : Levels) {
+        for (Level l : LevelsSinglePlayer) {
             options.add(l.getLevelId());
         };
         int option = JOptionPane.showOptionDialog(this, "Qual Nivel quer escolher?", "Escolha um nível", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options.toArray(), options.get(0));
 
         if (option > -1) {
-            GameBoard game = new GameBoard(Levels.get(option));
+            GameBoard game = new GameBoard(LevelsSinglePlayer.get(option), LevelsSinglePlayer);
             Runnable runner = () -> {
                 /* Create and display the form */
                 game.setVisible(true);
@@ -212,7 +236,6 @@ public class SplashScreen extends JFrame {
 
             EventQueue.invokeLater(runner);
         }
-
     }//GEN-LAST:event_newBtnActionPerformed
 
     private void aboutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutBtnMouseClicked
@@ -232,25 +255,56 @@ public class SplashScreen extends JFrame {
     }//GEN-LAST:event_exitBtnActionPerformed
 
     private void loadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadBtnActionPerformed
-        JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(this);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            //This is where a real application would open the file.
-            try {
-                GameBoard game = new GameBoard(a.GetSavedLevel(file.getPath()));
-
+        try {
+            GameBoard game;
+            if (a.GetSavedLevel() == null) {
+                Object[] options = {"OK"};
+                int n = JOptionPane.showOptionDialog(this,
+                        "Your save file was not found.", "File Not Found",
+                        JOptionPane.PLAIN_MESSAGE,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+            } else {
+                if (a.GetSavedLevel().getLevelLayout().contains("£")) {
+                    game = new GameBoard(a.GetSavedLevel(), LevelsMultiPlayer);
+                } else {
+                    game = new GameBoard(a.GetSavedLevel(), LevelsSinglePlayer);
+                }
                 Runnable runner = () -> {
                     /* Create and display the form */
                     game.setVisible(true);
                 };
                 EventQueue.invokeLater(runner);
-            } catch (Exception ex) {
-                Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
+        } catch (Exception ex) {
+            Logger.getLogger(SplashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loadBtnActionPerformed
+
+    private void newBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newBtn1MouseClicked
+
+    private void newBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtn1ActionPerformed
+        List<Object> options = new ArrayList<>();
+
+        for (Level l : LevelsMultiPlayer) {
+            options.add(l.getLevelId());
+        };
+        int option = JOptionPane.showOptionDialog(this, "Qual Nivel quer escolher?", "Escolha um nível", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options.toArray(), options.get(0));
+
+        if (option > -1) {
+            GameBoard game = new GameBoard(LevelsMultiPlayer.get(option), LevelsMultiPlayer);
+            Runnable runner = () -> {
+                /* Create and display the form */
+                game.setVisible(true);
+            };
+
+            EventQueue.invokeLater(runner);
+        }
+    }//GEN-LAST:event_newBtn1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutBtn;
@@ -259,5 +313,6 @@ public class SplashScreen extends JFrame {
     private javax.swing.JButton loadBtn;
     private javax.swing.JPanel main;
     private javax.swing.JButton newBtn;
+    private javax.swing.JButton newBtn1;
     // End of variables declaration//GEN-END:variables
 }
