@@ -22,7 +22,7 @@ public class Level {
     }
     
      /**
-     * @param vectorX to set vectorX
+     * @param levelId to set levelId
      */
     public void setLevelId(int levelId){
         this.levelId = levelId;

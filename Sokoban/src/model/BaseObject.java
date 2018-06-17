@@ -60,7 +60,7 @@ class BaseObject {
     }
 
     /**
-     * @param image to set the image
+     * @param imageName to set the image
      */
     public void setImage(String imageName) {
         try {

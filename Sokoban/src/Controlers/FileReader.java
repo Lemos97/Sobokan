@@ -25,10 +25,12 @@ import javax.swing.JOptionPane;
 public class FileReader {
 
     /**
-     * Reads a json file that contains all the levels and parses' it's content into an ArrayList of type Level
+     * Reads a json file that contains all the levels and parses' it's content
+     * into an ArrayList of type Level
+     *
      * @param type
-     * @return aList return the ArrayList<Level> generated  
-    */
+     * @return aList as ArrayList of Level generated
+     */
     public ArrayList<Level> GetAllLevels(String type) {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -48,10 +50,11 @@ public class FileReader {
     }
 
     /**
-     * Reads a json file that contains the saved level and parses' it's content into an object if type Level
-     * @param path
-     * @return Level: returns the Level generated  
-    */
+     * Reads a json file that contains the saved level and parses' it's content
+     * into an object if type Level
+     *
+     * @return Level: returns the Level generated
+     */
     public Level GetSavedLevel() {
         ObjectMapper mapper = new ObjectMapper();
         Path filePath;
@@ -72,8 +75,9 @@ public class FileReader {
     }
 
     /**
-     * Creates/Changes a json file that will contain/contains the LevelState and parses' it's content into an object if type Level
-    */
+     * Creates/Changes a json file that will contain/contains the LevelState and
+     * parses' it's content into an object if type Level
+     */
     public void SaveLevelState(String gameState, int numLvl) {
         Level a = new Level();
         a.setLevelId(numLvl);
